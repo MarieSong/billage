@@ -2,12 +2,48 @@
 <html>
 <head>
     <title>Billage Administrator Page</title>
+    
     <!-- 부트스트랩 CSS 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 표 전체에 적용되는 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px; /* 표 간격 조절 */
+        }
+
+        /* 표 헤더에 적용되는 스타일 */
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* 표 셀에 적용되는 스타일 */
+        td, th {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        /* 링크에 적용되는 스타일 */
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* 링크에 호버 효과 적용 */
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function openRentalHistory(userId) {
+            window.open('history_user_detail.php?u_id=' + userId, '_blank', 'width=1200,height=400');
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1>Billage Administrator Page</h1>
 
         <!-- 상단 메뉴 -->
         <?php
@@ -26,15 +62,8 @@
             //데이터베이스 불러오기
             require_once("db_connect.php");
 
-            // 사용자가 입력한 이름 가져오기
-            if (isset($_POST['search_name'])) {
-                $search_name = $_POST['search_name'];
-            } else {
-                $search_name = '';
-            }
-
-            // user 테이블 정보 가져오기 (검색)
-            $sql = "SELECT * FROM user WHERE u_name LIKE '%$search_name%' AND u_role=1"; //관리자를 제외한 사용자만 찾는다.
+            // user 테이블 정보 가져오기 (전체 사용자)
+            $sql = "SELECT * FROM user WHERE u_role=1"; //관리자를 제외한 사용자만 찾는다.
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -47,8 +76,8 @@
                     echo "<tr>";
                     echo "<td>" . $rowNumber . "</td>"; //번호
                     echo "<td>" . $row['u_id'] . "</td>"; //사용자ID
-                    // Add a link to show rental history when clicking on the name
-                    echo "<td><a href='history_user.php?u_id=" . $row['u_id'] . "'>" . $row['u_name'] . "</a></td>";
+                    // Add a link to open rental history in a new window
+                    echo "<td><a href='#' onclick='openRentalHistory(" . $row['u_id'] . "); return false;'>" . $row['u_name'] . "</a></td>";
                     echo "<td>" . $row['u_phone'] . "</td>"; //연락처
                     echo "<td>" . $row['u_email'] . "</td>"; //e-mail
                     echo "</tr>";
@@ -62,50 +91,10 @@
                 echo "No users found.";
             }
 
-            // Show rental history when u_id is passed in the URL parameter
-            if (isset($_GET['u_id'])) {
-                $user_id = $_GET['u_id'];
-                $sql_rental = "SELECT d_id, rt_book, rt_start, rt_deadline, IF(rt_return IS NULL, '미반납', rt_return) AS rt_return 
-                            FROM Rental
-                            WHERE u_id = '$user_id'";
-                $result_rental = $conn->query($sql_rental);
-
-                if ($result_rental->num_rows > 0) {
-                    echo "<h2>Rental History : " . $user_id . "</h2>";
-                    echo "<table border='1'>";
-                    echo "<tr><th>Device ID</th><th>Reservation Date</th><th>Rental Start Date</th><th>Rental End Date</th><th>Return Date</th></tr>";
-
-                    // 각 행 정보 출력
-                    while ($row_rental = $result_rental->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row_rental['d_id'] . "</td>";
-                        echo "<td>" . $row_rental['rt_book'] . "</td>";
-                        echo "<td>" . $row_rental['rt_start'] . "</td>";
-                        echo "<td>" . $row_rental['rt_deadline'] . "</td>";
-                        echo "<td>" . $row_rental['rt_return'] . "</td>";
-                        echo "</tr>";
-                    }
-
-                    echo "</table>";
-                } else {
-                    echo "No rental history found for this user.";
-                }
-            }
-
             // 데이터베이스 연결 닫기
             $conn->close();
             ?>
         </div>
-
-        <!-- 이름 검색 입력 창과 버튼 추가 -->
-        <form method="post">
-            <label for="search_name">Search by Name:</label>
-            <input type="text" id="search_name" name="search_name" placeholder="Enter name">
-            <button type="submit">Search</button>
-        </form>
-
-            
     </div>
-
 </body>
 </html>

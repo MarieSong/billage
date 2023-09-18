@@ -7,7 +7,6 @@
 </head>
 <body>
     <div class="container">
-        <h1>Billage Administrator Page</h1>
 
         <!-- 상단 메뉴 -->
         <?php

@@ -4,10 +4,21 @@
     <title>Billage Administrator Page</title>
     <!-- 부트스트랩 CSS 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        /* 이미지 스타일 */
+        img {
+            max-width: 90%;
+            height: auto;
+            display: block;
+            margin: 0 auto; /* 화면 중앙에 정렬 */
+        }
+    </style>
+
 </head>
 <body>
     <div class="container">
-        <h1>Billage Administrator Page</h1>
+        
 
         <!-- 상단 메뉴 -->
         <?php
@@ -17,7 +28,7 @@
 
         <!-- 환영 메시지 -->
         <div class="text-center">
-            <p>환영합니다. 관리자님</p>
+            <img src="image/welcome_center.png" alt="Welcome"> <!-- 이미지 삽입 -->
         </div>
     </div>
 

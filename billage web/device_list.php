@@ -25,11 +25,88 @@
         td:first-child {
             width: 50px; /* 번호 셀의 너비를 조절합니다. */
         }
+
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 20px 0;
+            border-radius: .25rem;
+        }
+
+        .pagination>li {
+            display: inline;
+        }
+
+        .pagination>li>a,
+        .pagination>li>span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .pagination>li:first-child>a,
+        .pagination>li:first-child>span {
+            margin-left: 0;
+            border-top-left-radius: .25rem;
+            border-bottom-left-radius: .25rem;
+        }
+
+        .pagination>li:last-child>a,
+        .pagination>li:last-child>span {
+            border-top-right-radius: .25rem;
+            border-bottom-right-radius: .25rem;
+        }
+
+        .pagination>li>a:focus,
+        .pagination>li>a:hover,
+        .pagination>li>span:focus,
+        .pagination>li>span:hover {
+            color: #23527c;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+
+        .pagination>.active>a,
+        .pagination>.active>a:focus,
+        .pagination>.active>a:hover,
+        .pagination>.active>span,
+        .pagination>.active>span:focus,
+        .pagination>.active>span:hover {
+            z-index: 2;
+            color: #fff;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+        .pagination>.disabled>a,
+        .pagination>.disabled>a:focus,
+        .pagination>.disabled>a:hover,
+        .pagination>.disabled>span,
+        .pagination>.disabled>span:focus,
+        .pagination>.disabled>span:hover {
+            color: #777;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+
+        /* 기기 이름 링크 스타일 */
+        .device-link {
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Billage Administrator Page</h1>
 
         <!-- 상단 메뉴 -->
         <?php
@@ -46,6 +123,10 @@
         <div class="text-center mb-4">
             <form action="device_list.php" method="get">
                 <select name="category_id" class="form-control d-inline-block" style="width: auto;">
+                    
+                    <!-- '전체' 옵션 추가 -->
+                    <option value="">전체</option> 
+                    
                     <?php
                         // 데이터베이스 불러오기
                         require_once("db_connect.php");
@@ -79,7 +160,13 @@
             // 데이터베이스 불러오기
             require_once("db_connect.php");
 
-            if(isset($_GET['category_id'])) {
+            // 페이지당 표시할 항목 수
+            $items_per_page = 10;
+
+            // 현재 페이지
+            $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+            if(isset($_GET['category_id']) && !empty($_GET['category_id'])) {
                 // URL에서 전달받은 카테고리 ID 가져오기
                 $category_id = $_GET['category_id'];
 
@@ -110,7 +197,14 @@
                                 WHERE 
                                     Device.c_id = Category.c_id
                                     AND Category.c_id = '$category_id'
-                                ";
+                                ORDER BY Device.d_id
+                                LIMIT " . ($current_page - 1) * $items_per_page . ", $items_per_page";
+                        
+                        // 페이지네이션을 위한 필터링된 총 아이템 수 쿼리
+                        $sql_total_items = "SELECT COUNT(*) as total 
+                                            FROM Device, Category 
+                                            WHERE Device.c_id = Category.c_id 
+                                            AND Category.c_id = '$category_id'";
                     } else {
                         // 상위 카테고리인 경우
                         $sql = "SELECT 
@@ -132,7 +226,13 @@
                                     Device.c_id = Category.c_id
                                     AND (Category.c_id = '$category_id' OR Category.c_top_id = '$category_id')
                                 ORDER BY Device.d_id
-                                ";
+                                LIMIT " . ($current_page - 1) * $items_per_page . ", $items_per_page";
+
+                        // 페이지네이션을 위한 필터링된 총 아이템 수 쿼리
+                        $sql_total_items = "SELECT COUNT(*) as total 
+                                            FROM Device, Category 
+                                            WHERE Device.c_id = Category.c_id 
+                                            AND (Category.c_id = '$category_id' OR Category.c_top_id = '$category_id')";
                     }
                 }
             } else {
@@ -154,22 +254,25 @@
                             Category 
                         WHERE 
                             Device.c_id = Category.c_id
-                        ";
+                        ORDER BY Device.d_id
+                        LIMIT " . ($current_page - 1) * $items_per_page . ", $items_per_page";
+
+                // 페이지네이션을 위한 전체 아이템 수 쿼리
+                $sql_total_items = "SELECT COUNT(*) as total FROM Device";
             }
 
             $result = $conn->query($sql);
-
 
             if ($result->num_rows > 0) {
                 echo "<table border='1'>";
                 echo "<tr><th>번호</th><th>기기명</th><th>모델명</th><th>기기ID</th><th>카테고리</th><th>토큰ID</th><th>기기상태</th></tr>";
  
                 // 각 행 정보 출력
-                $rowNumber = 1; // 처음 숫자를 1로 설정
+                $rowNumber = 1 + ($current_page - 1) * $items_per_page; // 처음 숫자 계산
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $rowNumber . "</td>"; //번호
-                    echo "<td>" . $row['d_name'] . "</td>"; // 기기명
+                    echo "<td class='device-link' data-device-id='" . $row['d_id'] . "'>" . $row['d_name'] . "</td>"; // 기기명
                     echo "<td>" . $row['d_model'] . "</td>"; // 모델명
                     echo "<td>" . $row['d_id'] . "</td>"; // 기기ID
                     echo "<td>" . $row['c_name'] . "</td>"; // 카테고리
@@ -182,14 +285,40 @@
                 }
 
                 echo "</table>";
+
+                // 페이지네이션 출력
+                $result_total_items = $conn->query($sql_total_items);
+                $row_total_items = $result_total_items->fetch_assoc();
+                $total_items = $row_total_items['total'];
+                $total_pages = ceil($total_items / $items_per_page);
+
+                echo "<ul class='pagination'>";
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='" . ($current_page == $i ? "active" : "") . "'><a href='device_list.php?page=$i" . (isset($_GET['category_id']) ? "&category_id=" . $_GET['category_id'] : "") . "'>$i</a></li>";
+                }
+                echo "</ul>";
             } else {
                 echo "등록된 기기가 없습니다.";
             }
 
             // 데이터베이스 연결 닫기
             $conn->close();
+
+
+            
             ?>
         </div>
     </div>
+
+    <!-- 기기 상세 정보를 보여주는 페이지로 이동하는 스크립트 -->
+    <script>
+        document.querySelectorAll('.device-link').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var deviceId = this.dataset.deviceId;
+                window.location.href = 'device_list_detail.php?d_id=' + deviceId;
+            });
+        });
+    </script>
+    
 </body>
 </html>
