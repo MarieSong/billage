@@ -33,6 +33,8 @@ if ($result_max_id->num_rows > 0) {
     $d_id = 'd12345-001';
 }
 
+//블록체인 실행ㄴ
+
 // 데이터베이스에 정보 저장
 $sql = "INSERT INTO Device (d_id, d_name, d_model, d_info, d_state, u_id, c_id, d_token) 
         VALUES ('$d_id', '$device_name', '$device_model', '$device_info', 0, 12345, '$device_category', 8)";
