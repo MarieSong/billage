@@ -72,8 +72,6 @@
                         }
                         // 기기 ID 출력
                         echo '<input type="text" class="form-control" id="device_id" name="device_id" value="'.$d_id.'" readonly>';
-                        // 데이터베이스 연결 종료
-                        $conn->close();
                     ?>
                 </div>
                 <div class="form-group">
@@ -88,8 +86,6 @@
                     <label for="device_category">카테고리</label>
                     <select class="form-control" id="device_category" name="device_category" required>
                         <?php
-                            // 데이터베이스 불러오기
-                            require_once("db_connect.php");
 
                             // 카테고리 목록 불러오기 (최상위 카테고리만)
                             $sql_top_categories = "SELECT * FROM Category WHERE c_top_id IS NULL";
