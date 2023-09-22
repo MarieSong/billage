@@ -5,12 +5,12 @@
     
     <!-- 부트스트랩 CSS 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pagination_form.css">
     <style>
         /* 표 전체에 적용되는 스타일 */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px; /* 표 간격 조절 */
         }
 
         /* 표 헤더에 적용되는 스타일 */
@@ -20,21 +20,15 @@
 
         /* 표 셀에 적용되는 스타일 */
         td, th {
-            border: 1px solid #dddddd;
-            padding: 8px;
+            padding: 10px;
             text-align: center;
         }
 
-        /* 링크에 적용되는 스타일 */
-        a {
-            color: #007bff;
-            text-decoration: none;
+        /* 번호 셀 너비를 고정하기 위한 스타일 */
+        td:first-child {
+            width: 50px; /* 번호 셀의 너비를 조절합니다. */
         }
 
-        /* 링크에 호버 효과 적용 */
-        a:hover {
-            text-decoration: underline;
-        }
     </style>
     <script>
         function openRentalHistory(userId) {
@@ -62,6 +56,12 @@
             //데이터베이스 불러오기
             require_once("db_connect.php");
 
+            // 페이지당 표시할 항목 수
+            $items_per_page = 10;
+
+            // 현재 페이지
+            $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
             // user 테이블 정보 가져오기 (전체 사용자)
             $sql = "SELECT * FROM user WHERE u_role=1"; //관리자를 제외한 사용자만 찾는다.
             $result = $conn->query($sql);
@@ -71,7 +71,7 @@
                 echo "<tr><th>번호</th><th>사용자 ID</th><th>이름</th><th>연락처</th><th>E-mail</th></tr>";
  
                 // 각 행 정보 출력
-                $rowNumber = 1; // 처음 숫자를 1로 설정
+                $rowNumber = 1 + ($current_page - 1) * $items_per_page; // 처음 숫자 계산
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $rowNumber . "</td>"; //번호
@@ -87,6 +87,18 @@
                 }
 
                 echo "</table>";
+
+                // 페이지네이션 출력
+                $result_total_items = $conn->query("SELECT COUNT(*) as total FROM user WHERE u_role=1");
+                $row_total_items = $result_total_items->fetch_assoc();
+                $total_items = $row_total_items['total'];
+                $total_pages = ceil($total_items / $items_per_page);
+
+                echo "<ul class='pagination'>";
+                for ($i = 1; $i <= $total_pages; $i++) {
+                    echo "<li class='" . ($current_page == $i ? "active" : "") . "'><a href='?page=$i'>$i</a></li>";
+                }
+                echo "</ul>";
             } else {
                 echo "No users found.";
             }
@@ -96,5 +108,11 @@
             ?>
         </div>
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>

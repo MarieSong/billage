@@ -4,6 +4,7 @@
     <title>Billage Administrator Page</title>
     <!-- 부트스트랩 CSS 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pagination_form.css">
     <style>
         /* 표의 각 칸 간격을 넓히는 CSS 스타일 */
         table {
@@ -11,90 +12,20 @@
             border-collapse: collapse; /* 표의 경계를 합칩니다. */
         }
 
-        th, td {
-            padding: 10px; /* 각 셀의 안팎 여백을 더 넓힙니다. */
-            text-align: center; /* 셀 내부의 텍스트 가운데 정렬합니다. */
-        }
-
         /* 표의 헤더 셀(제목 행) 스타일 */
         th {
             background-color: #f2f2f2; /* 배경색 지정 */
         }
 
+        th, td {
+            padding: 10px; /* 각 셀의 안팎 여백을 더 넓힙니다. */
+            text-align: center; /* 셀 내부의 텍스트 가운데 정렬합니다. */
+        }
+
+
         /* 번호 셀 너비를 고정하기 위한 스타일 */
         td:first-child {
             width: 50px; /* 번호 셀의 너비를 조절합니다. */
-        }
-
-        .pagination {
-            display: inline-block;
-            padding-left: 0;
-            margin: 20px 0;
-            border-radius: .25rem;
-        }
-
-        .pagination>li {
-            display: inline;
-        }
-
-        .pagination>li>a,
-        .pagination>li>span {
-            position: relative;
-            float: left;
-            padding: 6px 12px;
-            margin-left: -1px;
-            line-height: 1.42857143;
-            color: #337ab7;
-            text-decoration: none;
-            background-color: #fff;
-            border: 1px solid #ddd;
-        }
-
-        .pagination>li:first-child>a,
-        .pagination>li:first-child>span {
-            margin-left: 0;
-            border-top-left-radius: .25rem;
-            border-bottom-left-radius: .25rem;
-        }
-
-        .pagination>li:last-child>a,
-        .pagination>li:last-child>span {
-            border-top-right-radius: .25rem;
-            border-bottom-right-radius: .25rem;
-        }
-
-        .pagination>li>a:focus,
-        .pagination>li>a:hover,
-        .pagination>li>span:focus,
-        .pagination>li>span:hover {
-            color: #23527c;
-            background-color: #eee;
-            border-color: #ddd;
-        }
-
-        .pagination>.active>a,
-        .pagination>.active>a:focus,
-        .pagination>.active>a:hover,
-        .pagination>.active>span,
-        .pagination>.active>span:focus,
-        .pagination>.active>span:hover {
-            z-index: 2;
-            color: #fff;
-            cursor: default;
-            background-color: #337ab7;
-            border-color: #337ab7;
-        }
-
-        .pagination>.disabled>a,
-        .pagination>.disabled>a:focus,
-        .pagination>.disabled>a:hover,
-        .pagination>.disabled>span,
-        .pagination>.disabled>span:focus,
-        .pagination>.disabled>span:hover {
-            color: #777;
-            cursor: not-allowed;
-            background-color: #fff;
-            border-color: #ddd;
         }
 
         /* 기기 이름 링크 스타일 */
@@ -319,6 +250,12 @@
             });
         });
     </script>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
     
 </body>
 </html>

@@ -13,13 +13,13 @@
             display: block;
             margin: 0 auto; /* 화면 중앙에 정렬 */
         }
+
     </style>
 
 </head>
 <body>
     <div class="container">
         
-
         <!-- 상단 메뉴 -->
         <?php
         // top.php 파일을 포함
@@ -31,6 +31,13 @@
             <img src="image/welcome_center.png" alt="Welcome"> <!-- 이미지 삽입 -->
         </div>
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
+
 
 </body>
 </html>

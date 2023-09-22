@@ -86,5 +86,11 @@
     
         
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>

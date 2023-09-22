@@ -51,6 +51,32 @@
             <!-- 기기 정보 입력 폼 -->
             <form action="device_add_dataprocess.php" method="POST">
                 <div class="form-group">
+                    <label for="device_id">기기 ID</label>
+                    <?php
+                        // 데이터베이스 불러오기
+                        require_once("db_connect.php");
+
+                        // d_id 생성 로직
+                        // 현재까지 가장 큰 번호를 가져오는 쿼리
+                        $sql_max_id = "SELECT MAX(SUBSTRING_INDEX(d_id, '-', -1)) AS max_id FROM Device";
+                        $result_max_id = $conn->query($sql_max_id);
+                        if ($result_max_id->num_rows > 0) {
+                            $row_max_id = $result_max_id->fetch_assoc();
+                            $max_id = $row_max_id['max_id'];
+                            $next_id = $max_id + 1;
+                            $admin_id = '12345';
+                            $d_id = 'd' . $admin_id . '-' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
+                        } else {
+                            // 만약 데이터베이스에 아무런 레코드가 없다면 초기값으로 설정
+                            $d_id = 'd12345-001';
+                        }
+                        // 기기 ID 출력
+                        echo '<input type="text" class="form-control" id="device_id" name="device_id" value="'.$d_id.'" readonly>';
+                        // 데이터베이스 연결 종료
+                        $conn->close();
+                    ?>
+                </div>
+                <div class="form-group">
                     <label for="device_name">기기명</label>
                     <input type="text" class="form-control" id="device_name" name="device_name" required>
                 </div>
@@ -166,5 +192,12 @@
     
         
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
+
 </body>
 </html>

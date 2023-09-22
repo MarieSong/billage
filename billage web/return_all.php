@@ -48,7 +48,7 @@
             require_once("db_connect.php");
 
             // Rental 테이블 정보 가져오기 (검색)
-            $sql = "SELECT d.d_name, d.d_info, d.d_id, rt.u_id, rt.rt_deadline, rt.rt_state FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_deadline >= CURDATE() AND rt.rt_start < CURDATE()";
+            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt.rt_deadline, rt.rt_state FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_deadline >= CURDATE() AND rt.rt_start < CURDATE()";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -61,7 +61,7 @@
                     echo "<tr>";
                     echo "<td>" . $rowNumber . "</td>"; // 번호
                     echo "<td>" . $row['d_name'] . "</td>"; // 기기이름
-                    echo "<td>" . $row['d_info'] . "</td>"; // 모델명
+                    echo "<td>" . $row['d_model'] . "</td>"; // 모델명
                     echo "<td>" . $row['d_id'] . "</td>"; // 기기ID
                     echo "<td>" . $row['u_id'] . "</td>"; // 대여자
                     echo "<td>" . $row['rt_deadline'] . "</td>"; // 반납일
@@ -105,5 +105,11 @@
             ?>
         </div>
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>

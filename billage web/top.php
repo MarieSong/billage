@@ -24,8 +24,8 @@ session_start();
         /* 상단 메뉴 스타일 */
         .navbar {
             width: 100%;
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: rgba(242, 242, 242, 1);
+            color: #111;
             z-index: 2;
         }
 
@@ -45,7 +45,7 @@ session_start();
         }
 
         .submenu {
-            background-color: #f2f2f2;
+            background-color: rgba(242, 242, 242, 1);
             display: none;
             position: absolute;
         }
@@ -73,7 +73,7 @@ session_start();
 <body>
     <div class="container">
 
-        <img src="image/head_title.png" alt="Billage Administrator Page" class="img-fluid"> <!-- 이미지 삽입 -->
+        <img src="image/head_title.png" alt="Billage Administrator Page" class="img-fluid" onclick="location.href='index.php';" style="cursor: pointer;"> <!-- 이미지 삽입 -->
 
         <!-- 상단 메뉴 -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">

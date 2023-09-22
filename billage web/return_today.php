@@ -48,7 +48,7 @@
             require_once("db_connect.php");
 
             // Rental 테이블 정보 가져오기 (검색)
-            $sql = "SELECT d.d_name, d.d_info, d.d_id, rt.u_id, rt.rt_deadline FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_deadline = CURDATE() AND rt.rt_start < CURDATE()";
+            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt.rt_deadline FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_deadline = CURDATE() AND rt.rt_start < CURDATE()";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -61,11 +61,34 @@
                     echo "<tr>";
                     echo "<td>" . $rowNumber . "</td>"; // 번호
                     echo "<td>" . $row['d_name'] . "</td>"; // 기기이름
-                    echo "<td>" . $row['d_info'] . "</td>"; // 모델명
+                    echo "<td>" . $row['d_model'] . "</td>"; // 모델명
                     echo "<td>" . $row['d_id'] . "</td>"; // 기기ID
                     echo "<td>" . $row['u_id'] . "</td>"; // 대여자
                     echo "<td>" . $row['rt_deadline'] . "</td>"; // 반납일
-                    echo "<td> (미정) </td>"; // 수령상태
+                    echo "<td>";
+    
+                    switch($row['rt_state']) {
+                        case 0:
+                            echo "예약 완료";
+                            break;
+                        case 1:
+                            echo "수령 완료(사용중)";
+                            break;
+                        case 2:
+                            echo "예약 취소";
+                            break;
+                        case 3:
+                            echo "반납 완료";
+                            break;
+                        case 4:
+                            echo "연체";
+                            break;
+                        default:
+                            echo "알 수 없음";
+                            break;
+                    }
+                    
+                    echo "</td>"; // 수령상태
                     echo "</tr>";
 
                     // 다음 행을 위해 숫자 증가
@@ -82,5 +105,11 @@
             ?>
         </div>
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>

@@ -13,6 +13,7 @@ $device_size = $_POST['device_size'];
 $device_weight = $_POST['device_weight'];
 $device_os = $_POST['device_os'];
 $device_manufacturer = $_POST['device_manufacturer'];
+$device_id = $_POST['device_id'];
 
 // device_info : 하나의 문자열로 합치기
 $device_info = "저장공간: $device_storage, RAM: $device_ram, CPU: $device_cpu, 크기(인치): $device_size, 무게: $device_weight, 운영체제: $device_os, 제조사: $device_manufacturer";
@@ -20,7 +21,7 @@ $device_info = "저장공간: $device_storage, RAM: $device_ram, CPU: $device_cp
 
 // d_id 생성 로직
 // 현재까지 가장 큰 번호를 가져오는 쿼리
-$sql_max_id = "SELECT MAX(SUBSTRING_INDEX(d_id, '-', -1)) AS max_id FROM Device";
+/*$sql_max_id = "SELECT MAX(SUBSTRING_INDEX(d_id, '-', -1)) AS max_id FROM Device";
 $result_max_id = $conn->query($sql_max_id);
 if ($result_max_id->num_rows > 0) {
     $row_max_id = $result_max_id->fetch_assoc();
@@ -31,13 +32,13 @@ if ($result_max_id->num_rows > 0) {
 } else {
     // 만약 데이터베이스에 아무런 레코드가 없다면 초기값으로 설정
     $d_id = 'd12345-001';
-}
+}*/
 
-//블록체인 실행ㄴ
+//블록체인 실행
 
 // 데이터베이스에 정보 저장
 $sql = "INSERT INTO Device (d_id, d_name, d_model, d_info, d_state, u_id, c_id, d_token) 
-        VALUES ('$d_id', '$device_name', '$device_model', '$device_info', 0, 12345, '$device_category', 8)";
+        VALUES ('$device_id', '$device_name', '$device_model', '$device_info', 0, 12345, '$device_category', 8)";
 
 
 if ($conn->query($sql) === TRUE) {
