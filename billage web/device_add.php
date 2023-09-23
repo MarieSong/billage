@@ -49,7 +49,7 @@
         <div class="input-container">
 
             <!-- 기기 정보 입력 폼 -->
-            <form action="device_add_dataprocess.php" method="POST">
+            <form id="createNFTForm" action="device_add_dataprocess.php" method="POST">
                 <div class="form-group">
                     <label for="device_id">기기 ID</label>
                     <?php

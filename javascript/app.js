@@ -557,9 +557,9 @@ const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
 createNFTForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const deviceName = document.getElementById('deviceName').value;
-    const modelName = document.getElementById('modelName').value;
-    const serialNumber = document.getElementById('serialNumber').value;
+    const deviceName = document.getElementById('device_name').value;
+    const modelName = document.getElementById('device_model').value;
+    const serialNumber = document.getElementById('device_id').value;
 
     try {
         // MetaMask 권한 요청
