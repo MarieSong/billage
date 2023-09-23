@@ -30,17 +30,6 @@
         }
     </style>
 
-    <script>
-        function generateToken() {
-            // device_id, device_name, device_model 값을 가져와서 토큰을 생성
-            // ... (토큰 생성 코드)
-
-            // 생성된 토큰을 받아와서 화면에 표시
-            var generatedToken = '새로운_토큰_값'; // 여기에 실제로 생성된 토큰 값이 들어가야 합니다.
-            document.getElementById('token_id').textContent = generatedToken;
-        }
-    </script>
-
     
 
 
@@ -191,6 +180,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="token_id">토큰 ID</label>
+                            <br>
                             <span id="token_id" name="token_id" >토큰 생성 필요</span>
                         </div>
                     </div>
@@ -199,8 +189,12 @@
                 
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
-                    <button class="button-submit" onclick="generateToken()">토큰 생성</button>
-                    <button type="submit" class="button-submit btn btn-primary">등록</button>
+                    <div class="mx-2">
+                        <button type="button" class="button-submit" id="generateTokenButton">토큰 생성</button>
+                    </div>
+                    <div class="mx-2">
+                        <button type="submit" class="button-submit btn btn-primary">등록</button>
+                    </div>
                 </div>
                 
             </form>
@@ -209,6 +203,10 @@
     
         
     </div>
+
+    
+    <script src="web3.min.js"></script>
+    <script src="create.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php

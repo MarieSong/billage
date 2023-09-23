@@ -26,6 +26,18 @@
             width: 50px; /* 번호 셀의 너비를 조절합니다. */
         }
     </style>
+
+    <script>
+        function openConfirmPage(rtId) {
+            var width = 600; // 팝업 창의 가로 크기
+            var height = 400; // 팝업 창의 세로 크기
+            var left = (screen.width - width) / 2; // 화면 가운데 정렬을 위한 왼쪽 위치 계산
+            var top = (screen.height - height) / 2; // 화면 가운데 정렬을 위한 위쪽 위치 계산
+
+            // 팝업 창 열기
+            window.open('reserve_confirm.php?rt_id=' + rtId, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -48,7 +60,7 @@
             require_once("db_connect.php");
 
             // Rental 테이블 정보 가져오기 (검색)
-            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt_start FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_start = CURDATE()";
+            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt_start, rt.rt_state, rt.rt_id FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_start = CURDATE() AND rt.rt_state=0";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -89,6 +101,12 @@
                     }
                     
                     echo "</td>"; // 수령상태
+
+                    // '확인' 버튼 추가
+                    echo "<td>";
+                    echo "<button type='button' class='btn btn-info' onclick='openConfirmPage(\"" . $row['rt_id'] . "\")'>확인</button>";
+                    echo "</td>";
+
                     echo "</tr>";
 
                     // 다음 행을 위해 숫자 증가
