@@ -571,7 +571,7 @@ generateTokenButton.addEventListener('click', async () => {
         const result = await deviceNFTContract.methods.createDeviceNFT(deviceName, modelName, serialNumber).send({ from: accounts[0], gas: 5000000, gasPrice: '50000000' });
 
         const tokenId = result.events.NFTCreated.returnValues.tokenId;
-        tokenIdElement.textContent = `Generated Token ID: ${tokenId}`;
+        tokenIdElement.textContent = `${tokenId}`;
     } catch (error) {
         console.error('Error:', error);
     }

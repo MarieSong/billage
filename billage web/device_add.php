@@ -180,6 +180,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="token_id">토큰 ID</label>
+                            <br>
                             <span id="token_id" name="token_id" >토큰 생성 필요</span>
                         </div>
                     </div>
