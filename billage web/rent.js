@@ -551,7 +551,7 @@ const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
 // NFT 전송 버튼 클릭 처리
 transferNFTButton.addEventListener('click', async () => {
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').value;
-    const recipient = document.getElementById('recipient').value;
+    const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
     const rentalHistory = document.getElementById('rentalHistory').value;
     //const repairHistory = document.getElementById('repairHistory').value.split(',');
 
