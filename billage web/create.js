@@ -554,7 +554,7 @@ const contractABI = [
 const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
 
 // NFT 생성 양식 제출 처리
-createNFTForm.addEventListener('submit', async (e) => {
+createNFTForm.addEventListener('button', async (e) => {
     e.preventDefault();
 
     const deviceName = document.getElementById('device_name').value;

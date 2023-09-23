@@ -199,7 +199,7 @@
                 
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
-                    <button class="button-submit" onclick="generateToken()">토큰 생성</button>
+                    <button type="button" class="button-submit" onclick="generateToken()">토큰 생성</button>
                     <button type="submit" class="button-submit btn btn-primary">등록</button>
                 </div>
                 
@@ -217,6 +217,6 @@
     ?>
 
     <script src="web3.min.js"></script>
-    <script src="app.js"></script>
+    <script src="create.js"></script>
 </body>
 </html>
