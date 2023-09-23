@@ -4,10 +4,12 @@ const web3 = new Web3(window.ethereum);
 // HTML 요소 가져오기
 const createNFTForm = document.getElementById('createNFTForm');
 const tokenIdElement = document.getElementById('token_id');
-const transferNFTButton = document.getElementById('transferNFT');
+const generateTokenButton = document.getElementById('generateTokenButton'); // '토큰 생성' 버튼 추가
+
+/*const transferNFTButton = document.getElementById('transferNFT');
 const transferStatusElement = document.getElementById('transferStatus');
 const getDeviceDataButton = document.getElementById('getDeviceDataButton');
-const deviceDataElement = document.getElementById('deviceData');
+const deviceDataElement = document.getElementById('deviceData');*/
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
 const contractABI = [
@@ -554,17 +556,15 @@ const contractABI = [
 const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
 
 // NFT 생성 양식 제출 처리
-createNFTForm.addEventListener('button', async (e) => {
-    e.preventDefault();
-
-    const deviceName = document.getElementById('device_name').value;
-    const modelName = document.getElementById('device_model').value;
-    const serialNumber = document.getElementById('device_id').value;
-
+generateTokenButton.addEventListener('click', async () => {
     try {
         // MetaMask 권한 요청
         const accounts = await window.ethereum.enable();
-        
+
+        const deviceName = document.getElementById('device_name').value;
+        const modelName = document.getElementById('device_model').value;
+        const serialNumber = document.getElementById('device_id').value;
+
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 createDeviceNFT 함수를 호출하여 NFT 생성
