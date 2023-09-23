@@ -3,7 +3,7 @@ const web3 = new Web3(window.ethereum);
 
 // HTML 요소 가져오기
 const createNFTForm = document.getElementById('createNFTForm');
-const tokenIdElement = document.getElementById('tokenId');
+const tokenIdElement = document.getElementById('token_id');
 const transferNFTButton = document.getElementById('transferNFT');
 const transferStatusElement = document.getElementById('transferStatus');
 const getDeviceDataButton = document.getElementById('getDeviceDataButton');

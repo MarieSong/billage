@@ -216,5 +216,7 @@
         include('bottom.php');
     ?>
 
+    <script src="web3.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
