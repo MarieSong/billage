@@ -18,7 +18,8 @@
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 400) {
                     alert('기기 수령 완료.');
-                    location.reload();
+                    closeWindow();
+                    window.opener.location.reload(); // 부모 창 새로고침
                 }
             };
 
@@ -41,7 +42,7 @@
         // 사용자 정보 가져오기
         if(isset($_GET['rt_id'])) {
             $rental_id = $_GET['rt_id'];
-            $sql_rental = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt_start, rt.rt_state FROM Rental rt, Device d WHERE rt.d_id = d.d_id AND rt.rt_id = '$rental_id'";
+            $sql_rental = "SELECT d.d_name, d.d_model, d.d_token, d.d_id, rt.u_id, rt_start, rt.rt_state FROM Rental rt, Device d WHERE rt.d_id = d.d_id AND rt.rt_id = '$rental_id'";
             $result_rental = $conn->query($sql_rental);
 
             if ($result_rental->num_rows > 0) {
@@ -51,6 +52,7 @@
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
+                echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>대여 시작일 :</strong> " . $row_rental['rt_start'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>현재 상태 :</strong> " . $row_rental['rt_state'] . "</p></div>";
