@@ -1,0 +1,18 @@
+
+.button-submit {
+    /* 공통 스타일을 여기에 추가합니다 */
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button.button-submit {
+    background-color: #007bff; /* 마우스 오버 시 배경색 변경 */
+    color: #fff; /* 마우스 오버 시 글자색 변경 */
+}

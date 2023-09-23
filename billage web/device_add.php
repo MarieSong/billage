@@ -4,6 +4,7 @@
     <title>Billage Administrator Page</title>
     <!-- 부트스트랩 CSS 추가 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/button_submit.css">
     <style>
         .divider {
             border-top: 1px solid #ccc;
@@ -28,6 +29,19 @@
             justify-content: center;
         }
     </style>
+
+    <script>
+        function generateToken() {
+            // device_id, device_name, device_model 값을 가져와서 토큰을 생성
+            // ... (토큰 생성 코드)
+
+            // 생성된 토큰을 받아와서 화면에 표시
+            var generatedToken = '새로운_토큰_값'; // 여기에 실제로 생성된 토큰 값이 들어가야 합니다.
+            document.getElementById('token_id').textContent = generatedToken;
+        }
+    </script>
+
+    
 
 
 </head>
@@ -174,12 +188,19 @@
                             <input type="text" class="form-control" id="device_manufacturer" name="device_manufacturer" required>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="token_id">토큰 ID</label>
+                            <span id="token_id" name="token_id" >토큰 생성 필요</span>
+                        </div>
+                    </div>
                 </div>
 
                 
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
-                    <button type="submit" class="btn btn-primary">등록</button>
+                    <button class="button-submit" onclick="generateToken()">토큰 생성</button>
+                    <button type="submit" class="button-submit btn btn-primary">등록</button>
                 </div>
                 
             </form>
