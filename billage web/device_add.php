@@ -210,13 +210,15 @@
         
     </div>
 
+    
+    <script src="web3.min.js"></script>
+    <script src="create.js"></script>
+    
     <!-- 하단 메뉴 -->
     <?php
         // bottom.php 파일을 포함
         include('bottom.php');
     ?>
 
-    <script src="web3.min.js"></script>
-    <script src="create.js"></script>
 </body>
 </html>
