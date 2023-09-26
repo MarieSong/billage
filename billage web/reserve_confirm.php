@@ -52,15 +52,15 @@
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
+                echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
+                echo "<div class='col-sm-6' id='rentalHistory'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>대여 시작일 :</strong> " . $row_rental['rt_start'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>현재 상태 :</strong> " . $row_rental['rt_state'] . "</p></div>";
                 echo "</div>";
 
                 // "수령확인" 버튼 추가
                 echo "<div class='text-center mt-4'>";
-                echo "<button class='btn btn-primary' onclick='confirmRow(\"" . $rental_id . "\")'>수령확인</button>";
+                echo "<button class='btn btn-primary' id='transferNFT' onclick='confirmRow(\"" . $rental_id . "\")'>수령확인</button>";
                 echo "</div>";
                 } else {
                 echo $rental_id;
@@ -73,6 +73,9 @@
         // 데이터베이스 연결 닫기
         $conn->close();
         ?>
+
+    <script src="web3.min.js"></script>
+    <script src="rent.js"></script>
 
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
