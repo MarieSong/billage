@@ -3,6 +3,7 @@ const web3 = new Web3(window.ethereum);
 
 const transferNFTButton = document.getElementById('transferNFT');
 //const transferStatusElement = document.getElementById('transferStatus');
+//const transferStatusElement = document.getElementById('transferStatus');
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
 const contractABI = [
@@ -554,7 +555,16 @@ transferNFTButton.addEventListener('click', async () => {
     const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
     const rentalHistory = document.getElementById('rentalHistory').value;
     //const repairHistory = document.getElementById('repairHistory').value.split(',');
-
+    
+    const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
+    let extractedNumber = 0;
+    if (numberArray !== null) {
+        for (const numberString of numberArray) {
+            extractedNumber = parseInt(numberString); // 추출된 문자열을 정수로 변환
+        }
+}   else {
+        console.log("숫자를 추출할 수 없습니다.");
+}
     try {
         // MetaMask 권한 요청
         const accounts = await window.ethereum.enable();
@@ -562,8 +572,9 @@ transferNFTButton.addEventListener('click', async () => {
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(tokenIdTransfer, recipient, rentalHistory, []).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
+        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, rentalHistory, []).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
 
+        //transferStatusElement.textContent = `NFT Transfer Successful`;
         //transferStatusElement.textContent = `NFT Transfer Successful`;
     } catch (error) {
         console.error('Error:', error);
