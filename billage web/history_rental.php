@@ -27,6 +27,11 @@
         td:first-child {
             width: 50px; /* 번호 셀의 너비를 조절합니다. */
         }
+
+        /* 비고 칸 스타일 */
+        .note-column {
+            width: 100px; /* 비고 칸의 너비를 조절합니다. */
+        }
     </style>
 </head>
 <body>
@@ -57,12 +62,16 @@
 
             // Rental 테이블 정보 가져오기 (검색)
             $offset = ($current_page - 1) * $items_per_page;
-            $sql = "SELECT d_id, u_id, rt_book, rt_start, rt_deadline, IF(rt_return IS NULL, '미반납', rt_return) AS rt_return FROM Rental LIMIT $offset, $items_per_page";
+            $sql = "SELECT d_id, u_id, rt_book, rt_start, rt_deadline, IF(rt_return IS NULL, '미반납', rt_return) AS rt_return,
+                            IF(rt_return > rt_deadline, CONCAT('연체(', DATEDIFF(rt_return, rt_deadline), '일)'), '') AS note 
+                    FROM Rental 
+                    ORDER BY rt_start DESC
+                    LIMIT $offset, $items_per_page";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 echo "<table border='1'>";
-                echo "<tr><th>번호</th><th>기기ID</th><th>대여자</th><th>예약일</th><th>수령일</th><th>반납예정일</th><th>반납현황</th></tr>";
+                echo "<tr><th>번호</th><th>기기ID</th><th>대여자</th><th>예약일</th><th>수령일</th><th>반납예정일</th><th>반납현황</th><th class='note-column'>비고</th></tr>";
  
                 // 각 행 정보 출력
                 $rowNumber = 1 + $offset; // 처음 숫자를 계산
@@ -75,6 +84,7 @@
                     echo "<td>" . $row['rt_start'] . "</td>"; // 수령일
                     echo "<td>" . $row['rt_deadline'] . "</td>"; // 반납예정일
                     echo "<td>" . $row['rt_return'] . "</td>"; // 반납현황
+                    echo "<td>" . $row['note'] . "</td>"; // 비고
                     echo "</tr>";
 
                     // 다음 행을 위해 숫자 증가

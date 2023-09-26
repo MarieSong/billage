@@ -26,6 +26,19 @@
             width: 50px; /* 번호 셀의 너비를 조절합니다. */
         }
     </style>
+
+    <!-- 추가된 JavaScript 코드 -->
+    <script>
+        function openConfirmPage(rtId) {
+            var width = 600; // 팝업 창의 가로 크기
+            var height = 400; // 팝업 창의 세로 크기
+            var left = (screen.width - width) / 2; // 화면 가운데 정렬을 위한 왼쪽 위치 계산
+            var top = (screen.height - height) / 2; // 화면 가운데 정렬을 위한 위쪽 위치 계산
+
+            // 팝업 창 열기
+            window.open('return_confirm.php?rt_id=' + rtId, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -53,6 +66,7 @@
                         d.d_model, 
                         d.d_id, 
                         rt.u_id, 
+                        rt.rt_id,
                         rt.rt_deadline, 
                         rt.rt_return, 
                         DATEDIFF(CURDATE(), rt.rt_deadline) AS overdue_days
@@ -82,6 +96,12 @@
                     echo "<td>" . $row['u_id'] . "</td>"; // 대여자
                     echo "<td>" . $row['rt_deadline'] . "</td>"; // 반납일
                     echo "<td>" . $row['overdue_days'] . " 일</td>"; // 연체일수
+
+                    // '확인' 버튼 추가
+                    echo "<td>";
+                    echo "<button type='button' class='btn btn-info' onclick='openConfirmPage(\"" . $row['rt_id'] . "\")'>확인</button>";
+                    echo "</td>";
+
                     echo "</tr>";
 
                     // 다음 행을 위해 숫자 증가

@@ -52,35 +52,35 @@
 
         <!-- 카테고리 검색 드롭다운과 조회 버튼 -->
         <div class="text-center mb-4">
-            <form action="device_list.php" method="get">
-                <select name="category_id" class="form-control d-inline-block" style="width: auto;">
-                    
-                    <!-- '전체' 옵션 추가 -->
-                    <option value="">전체</option> 
-                    
-                    <?php
-                        // 데이터베이스 불러오기
-                        require_once("db_connect.php");
+            <div class="col-md-6 text-left">
+                <form action="device_list.php" method="get" class="d-inline-block">
+                    <select name="category_id" class="form-control d-inline-block" style="width: auto;">
+                        <!-- '전체' 옵션 추가 -->
+                        <option value="">전체</option> 
+                        <?php
+                            // 데이터베이스 불러오기
+                            require_once("db_connect.php");
 
-                        // 재귀적으로 카테고리를 가져와서 계층 구조를 유지
-                        function fetchCategories($conn, $parent_id = null, $prefix = '') {
-                            $sql = "SELECT * FROM Category WHERE c_top_id " . ($parent_id ? "= '$parent_id'" : "IS NULL");
-                            $result = $conn->query($sql);
+                            // 재귀적으로 카테고리를 가져와서 계층 구조를 유지
+                            function fetchCategories($conn, $parent_id = null, $prefix = '') {
+                                $sql = "SELECT * FROM Category WHERE c_top_id " . ($parent_id ? "= '$parent_id'" : "IS NULL");
+                                $result = $conn->query($sql);
 
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
-                                    $selected = isset($_GET['category_id']) && $_GET['category_id'] == $row['c_id'] ? 'selected' : '';
-                                    echo "<option value='" . $row['c_id'] . "' $selected>" . $prefix . $row['c_name'] . "</option>";
-                                    fetchCategories($conn, $row['c_id'], $prefix . '--');
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        $selected = isset($_GET['category_id']) && $_GET['category_id'] == $row['c_id'] ? 'selected' : '';
+                                        echo "<option value='" . $row['c_id'] . "' $selected>" . $prefix . $row['c_name'] . "</option>";
+                                        fetchCategories($conn, $row['c_id'], $prefix . '--');
+                                    }
                                 }
                             }
-                        }
 
-                        fetchCategories($conn);
-                    ?>
-                </select>
-                <button type="submit" class="btn btn-primary">조회</button>
-            </form>
+                            fetchCategories($conn);
+                        ?>
+                    </select>
+                    <button type="submit" class="btn btn-primary ml-2">조회</button>
+                </form>
+            </div>
         </div>
 
         <!-- 기기 목록 -->

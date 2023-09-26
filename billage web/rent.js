@@ -2,7 +2,7 @@
 const web3 = new Web3(window.ethereum);
 
 const transferNFTButton = document.getElementById('transferNFT');
-const transferStatusElement = document.getElementById('transferStatus');
+//const transferStatusElement = document.getElementById('transferStatus');
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
 const contractABI = [
@@ -551,7 +551,7 @@ const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
 // NFT 전송 버튼 클릭 처리
 transferNFTButton.addEventListener('click', async () => {
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').value;
-    const recipient = document.getElementById('recipient').value;
+    const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
     const rentalHistory = document.getElementById('rentalHistory').value;
     //const repairHistory = document.getElementById('repairHistory').value.split(',');
 
@@ -564,9 +564,9 @@ transferNFTButton.addEventListener('click', async () => {
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
         await deviceNFTContract.methods.transferDeviceNFT(tokenIdTransfer, recipient, rentalHistory, []).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
 
-        transferStatusElement.textContent = `NFT Transfer Successful`;
+        //transferStatusElement.textContent = `NFT Transfer Successful`;
     } catch (error) {
         console.error('Error:', error);
-        transferStatusElement.textContent = `Error: ${error.message}`;
+        //transferStatusElement.textContent = `Error: ${error.message}`;
     }
 });

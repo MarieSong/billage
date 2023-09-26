@@ -27,7 +27,14 @@
             display: flex;
             justify-content: center;
         }
+
+        /* 탐색 버튼과 등록 버튼 간격 조절 */
+        .button-spacing {
+            margin-right: 20px; /* 원하는 간격으로 조절하세요 */
+        }
     </style>
+
+   
 
 
 </head>
@@ -75,8 +82,9 @@
                 </div>
                 
 
-                <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
+                <!-- 등록 버튼과 탐색 버튼을 포함하는 div -->
                 <div class="center-button">
+                    <button type="button" class="btn btn-secondary button-spacing" id="exploreButton">탐색</button>
                     <button type="submit" class="btn btn-primary">등록</button>
                 </div>
                 
@@ -92,5 +100,12 @@
         // bottom.php 파일을 포함
         include('bottom.php');
     ?>
+
+    <script>
+        document.getElementById('exploreButton').addEventListener('click', function() {
+            // 탐색 버튼을 클릭했을 때 수행할 동작을 여기에 추가
+            alert('탐색 버튼을 클릭했습니다.');
+        });
+    </script>
 </body>
 </html>

@@ -29,23 +29,9 @@
 
     <!-- 추가된 JavaScript 코드 -->
     <script>
-        function confirmRow(rowNumber, rtId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'reserve_update_state.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-            xhr.onload = function () {
-                if (xhr.status >= 200 && xhr.status < 400) {
-                    alert('기기 수령 완료.');
-                    location.reload();
-                }
-            };
-
-            xhr.onerror = function () {
-                console.log('Error');
-            };
-
-            xhr.send('rt_id=' + rtId);
+        function openConfirmPage(rtId) {
+        // 현재 창에서 페이지 이동
+        window.location.href = 'reserve_confirm.php?rt_id=' + rtId;
         }
     </script>
 
@@ -72,7 +58,9 @@
             require_once("db_connect.php");
 
             // Rental 테이블 정보 가져오기 (검색)
-            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt_start, rt.rt_id, rt.rt_state FROM Rental rt, Device d WHERE d.d_id = rt.d_id AND rt.rt_start >= CURDATE() AND rt.rt_state=0";
+            $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt_start, rt.rt_id, rt.rt_state 
+                    FROM Rental rt, Device d 
+                    WHERE d.d_id = rt.d_id AND rt.rt_start >= CURDATE() AND rt.rt_state=0";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -116,7 +104,7 @@
 
                     // '확인' 버튼 추가
                     echo "<td>";
-                    echo "<button type='button' class='btn btn-info' onclick='confirmRow(" . $rowNumber . ", \"" . $row['rt_id'] . "\")'>확인</button>";
+                    echo "<button type='button' class='btn btn-info' onclick='openConfirmPage(\"" . $row['rt_id'] . "\")'>확인</button>";
                     echo "</td>";
 
                     echo "</tr>";
