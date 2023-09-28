@@ -190,7 +190,7 @@
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
                     <div class="mx-2">
-                        <button type="button" class="button-submit" id="generateTokenButton">토큰 생성</button>
+                        <button type="button" class="button-submit btn btn-secondary" id="generateTokenButton">토큰 생성</button>
                     </div>
                     <div class="mx-2">
                         <button type="submit" class="button-submit btn btn-primary">등록</button>

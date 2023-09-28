@@ -30,13 +30,8 @@
     <!-- 추가된 JavaScript 코드 -->
     <script>
         function openConfirmPage(rtId) {
-            var width = 600; // 팝업 창의 가로 크기
-            var height = 400; // 팝업 창의 세로 크기
-            var left = (screen.width - width) / 2; // 화면 가운데 정렬을 위한 왼쪽 위치 계산
-            var top = (screen.height - height) / 2; // 화면 가운데 정렬을 위한 위쪽 위치 계산
-
-            // 팝업 창 열기
-            window.open('return_confirm.php?rt_id=' + rtId, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+        // 현재 창에서 페이지 이동
+        window.location.href = 'return_confirm.php?rt_id=' + rtId;
         }
     </script>
 </head>
@@ -76,8 +71,7 @@
                     WHERE 
                         d.d_id = rt.d_id 
                         AND rt.rt_return IS NULL 
-                        AND rt.rt_start < CURDATE() 
-                        AND rt.rt_deadline <= CURDATE();
+                        AND rt.rt_state = 4;
                     ";
             $result = $conn->query($sql);
 

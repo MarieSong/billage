@@ -37,6 +37,12 @@
 <body>
     <div class="container">
 
+        <!-- 상단 메뉴 -->
+        <?php
+            // top.php 파일을 포함
+            include('top.php');
+        ?>
+
         <?php
         // 데이터베이스 연결
         require_once("db_connect.php");
@@ -86,9 +92,9 @@
                 echo "</div>";
 
                 // "수령확인" 버튼 추가
-                echo "<div class='text-center mt-4'>";
-                echo "<button class='btn btn-primary' id='transferNFT' onclick='confirmRow(\"" . $rental_id . "\")'>수령확인</button>";
-                echo "</div>";
+                //echo "<div class='text-center mt-4'>";
+                //echo "<button class='btn btn-primary' id='transferNFT' onclick='confirmRow(\"" . $rental_id . "\")'>수령확인</button>";
+                //echo "</div>";
             } else {
                 echo $rental_id;
                 echo "Rental not found.";
@@ -107,6 +113,7 @@
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
             <!-- <button class="btn btn-secondary" onclick="closeWindow()">뒤로</button> -->
+            <button class='btn btn-primary' id='transferNFT' onclick='confirmRow("" . $rental_id . "")'>수령확인</button>
             <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
         </div>
 

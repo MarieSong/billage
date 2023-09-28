@@ -42,7 +42,7 @@
 
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                echo "<p>관리자 정보 화면입니다.</p>";
+                echo "<p class=\"text-center\">관리자 정보 화면입니다.</p>";
                 echo "<p>관리자 ID : " . $row['u_id'] . "</p>";
                 echo "<p>관리자 이름 : " . $row['u_name'] . "</p>";
                 echo "<p>이메일 : " . $row['u_email'] . "</p>";
@@ -54,7 +54,12 @@
             // 데이터베이스 연결 닫기
             $conn->close();
             ?>
+
+            <div>   
+                <button type="submit" class="btn btn-primary" onclick="openPasswordChange()">비밀번호 변경</button>
+            </div>
         </div>
+        
     </div>
 
     <!-- 하단 메뉴 -->
@@ -62,6 +67,12 @@
         // bottom.php 파일을 포함
         include('bottom.php');
     ?>
+
+    <script>
+        function openPasswordChange() {
+            window.open('admin_info_pwchange.php', '_blank', 'width=500,height=400');
+        }
+    </script>
 
 </body>
 </html>

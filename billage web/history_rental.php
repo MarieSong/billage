@@ -32,7 +32,35 @@
         .note-column {
             width: 100px; /* 비고 칸의 너비를 조절합니다. */
         }
+
+        /* 가운데 정렬 및 줄 바꿈 스타일 */
+        .centered-cell {
+            text-align: center;
+            white-space: pre-line; /* 줄 바꿈을 가능하게 합니다. */
+        }
+
+        /* rt_state가 2인 경우에만 적용하는 스타일 */
+        tr.state-2 td.centered-cell {
+            background-color: #ffeeee; /* 예시로 배경색 추가 */
+        }
     </style>
+
+    <script>
+        function searchRental() {
+            var option = document.getElementById('searchOption').value;
+            var startDate = document.getElementById('startDate').value;
+            var endDate = document.getElementById('endDate').value;
+
+            // 유효성 검사: 시작일이 종료일보다 이전인지 확인
+            if (new Date(startDate) > new Date(endDate)) {
+                alert("시작일은 종료일보다 이전이어야 합니다.");
+                return;
+            }
+
+            var url = "history_rental.php?option=" + option + "&startDate=" + startDate + "&endDate=" + endDate;
+            window.location.href = url;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -47,6 +75,20 @@
         <div class="text-center">
             <p>&lt;대여 기록 조회&gt;</p>
         </div>
+
+        <!-- 검색 기능 추가 -->
+        <div class="text-center" style="margin-bottom: 20px;">
+            <select id="searchOption" class="form-control" style="display: inline-block; width: 150px; margin-right: 10px;">
+                <option value="rt_book">예약일</option>
+                <option value="rt_start">수령일</option>
+                <option value="rt_deadline">반납 예정일</option>
+            </select>
+            <input type="date" id="startDate" class="form-control" style="display: inline-block; width: 150px; margin-right: 10px;" value="<?php echo isset($_GET['startDate']) ? $_GET['startDate'] : ''; ?>">
+            <span>~ </span>
+            <input type="date" id="endDate" class="form-control" style="display: inline-block; width: 150px; margin-right: 10px;" value="<?php echo isset($_GET['endDate']) ? $_GET['endDate'] : ''; ?>">
+            <button onclick="searchRental()" class="btn btn-primary">검색</button>
+        </div>
+
         <div class="text-center">
 
             <?php
@@ -62,11 +104,27 @@
 
             // Rental 테이블 정보 가져오기 (검색)
             $offset = ($current_page - 1) * $items_per_page;
-            $sql = "SELECT d_id, u_id, rt_book, rt_start, rt_deadline, IF(rt_return IS NULL, '미반납', rt_return) AS rt_return,
-                            IF(rt_return > rt_deadline, CONCAT('연체(', DATEDIFF(rt_return, rt_deadline), '일)'), '') AS note 
+
+            // 검색 옵션 및 기간
+            $searchOption = isset($_GET['option']) ? $_GET['option'] : '';
+            $startDate = isset($_GET['startDate']) ? $_GET['startDate'] : '';
+            $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : '';
+
+            // SQL 쿼리에 사용될 조건
+            $condition = '';
+            if ($searchOption && $startDate && $endDate) {
+                $condition = "AND $searchOption BETWEEN '$startDate' AND '$endDate'";
+            }
+
+            $sql = "SELECT d_id, u_id, rt_book, rt_start, rt_deadline, 
+                        IF(rt_state = 2, '취소', COALESCE(rt_return, '미반납')) AS rt_return,
+                        IF(rt_state = 4 OR rt_return > rt_deadline, CONCAT('연체(', DATEDIFF(COALESCE(rt_return, NOW()), rt_deadline), '일)'), '') AS note 
                     FROM Rental 
+                    WHERE 1 $condition
                     ORDER BY rt_start DESC
                     LIMIT $offset, $items_per_page";
+
+
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -112,6 +170,9 @@
             $conn->close();
             ?>
         </div>
+
+        
+
     </div>
 
     <!-- 하단 메뉴 -->

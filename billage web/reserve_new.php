@@ -85,7 +85,7 @@
                 <!-- 등록 버튼과 탐색 버튼을 포함하는 div -->
                 <div class="center-button">
                     <button type="button" class="btn btn-secondary button-spacing" id="exploreButton">탐색</button>
-                    <button type="submit" class="btn btn-primary">등록</button>
+                    <button type="submit" class="btn btn-primary" id="registerButton" disabled>등록</button>
                 </div>
                 
             </form>
@@ -103,9 +103,62 @@
 
     <script>
         document.getElementById('exploreButton').addEventListener('click', function() {
-            // 탐색 버튼을 클릭했을 때 수행할 동작을 여기에 추가
-            alert('탐색 버튼을 클릭했습니다.');
+            updateRegisterButtonAvailability();
         });
+
+        function updateRegisterButtonAvailability() {
+            // 예약자 ID, 기기 ID, 대여 시작일, 기기 반납일 값을 가져옴
+            var reserver_id = document.getElementById('reserver_id').value;
+            var device_id = document.getElementById('device_id').value;
+            var start_date = document.getElementById('start_date').value;
+            var end_date = document.getElementById('end_date').value;
+
+            // AJAX를 이용하여 값을 reserve_new_confirm.php로 전달
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'reserve_new_confirm.php', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    if (xhr.responseText === "available") {
+                        // 대여 가능한 경우 등록 버튼 활성화
+                        document.getElementById('registerButton').disabled = false;
+                        alert('대여가 가능합니다.');
+                    } else if (xhr.responseText === "user not found") {
+                        // 대여 불가능한 경우 등록 버튼 비활성화
+                        document.getElementById('registerButton').disabled = true;
+                        alert('등록된 사용자가 아닙니다. 예약자 ID를 확인하세요.');
+                    } else if (xhr.responseText === "device not found") {
+                        // 대여 불가능한 경우 등록 버튼 비활성화
+                        document.getElementById('registerButton').disabled = true;
+                        alert('등록된 기기가 아닙니다. 기기 ID를 확인하세요.');
+                    } else if (xhr.responseText === "unavailable user") {
+                        // 대여 불가능한 경우 등록 버튼 비활성화
+                        document.getElementById('registerButton').disabled = true;
+                        alert('이미 대여중인 기기가 있습니다. 대여가 불가능합니다.');
+                    } else if (xhr.responseText === "unavailable device") {
+                        // 대여 불가능한 경우 등록 버튼 비활성화
+                        document.getElementById('registerButton').disabled = true;
+                        alert('이미 다른 사용자가 사용중입니다. 대여가 불가능합니다.');
+                    } else {
+                        document.getElementById('registerButton').disabled = true;
+                        alert('오류가 발생했습니다. 다시 시도해 주세요.');
+                    }
+                }
+            }
+            xhr.send('reserver_id=' + encodeURIComponent(reserver_id) + '&device_id=' + encodeURIComponent(device_id) + '&start_date=' + encodeURIComponent(start_date) + '&end_date=' + encodeURIComponent(end_date));
+        }
+
+
+        function checkTextWindowChange() {
+            // 등록 버튼 비활성화
+            document.getElementById('registerButton').disabled = true;
+        }
+
+        document.getElementById('reserver_id').addEventListener('input', checkTextWindowChange);
+        document.getElementById('device_id').addEventListener('input', checkTextWindowChange);
+        document.getElementById('start_date').addEventListener('input', checkTextWindowChange);
+        document.getElementById('end_date').addEventListener('input', checkTextWindowChange);
+
     </script>
 </body>
 </html>

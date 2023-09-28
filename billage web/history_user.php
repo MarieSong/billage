@@ -34,6 +34,13 @@
         function openRentalHistory(userId) {
             window.open('history_user_detail.php?u_id=' + userId, '_blank', 'width=1200,height=400');
         }
+
+        function searchUser() {
+            var searchOption = document.getElementById('searchOption').value;
+            var searchText = document.getElementById('searchText').value;
+            var url = "history_user.php?option=" + searchOption + "&text=" + searchText;
+            window.location.href = url;
+        }
     </script>
 </head>
 <body>
@@ -45,15 +52,24 @@
         include('top.php');
         ?>
 
-        <!-- 사용자 정보 불러오기 -->
+        <!-- 사용자 정보 검색 -->
         <div class="text-center">
             <p>&lt;사용자조회&gt;</p>
         </div>
+        <div class="text-center" style="margin-bottom: 20px;">
+            <select id="searchOption" class="form-control" style="display: inline-block; width: 150px; margin-right: 10px;">
+                <option value="u_id">사용자 ID</option>
+                <option value="u_name">이름</option>
+            </select>
+            <input type="text" id="searchText" class="form-control" style="display: inline-block; width: 200px; margin-right: 10px;" placeholder="검색어를 입력하세요">
+            <button onclick="searchUser()" class="btn btn-primary">검색</button>
+        </div>
+
         <div class="text-center">
 
             <?php
         
-            //데이터베이스 불러오기
+            // 데이터베이스 불러오기
             require_once("db_connect.php");
 
             // 페이지당 표시할 항목 수
@@ -62,8 +78,18 @@
             // 현재 페이지
             $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
+            // 검색 옵션 및 텍스트
+            $searchOption = isset($_GET['option']) ? $_GET['option'] : '';
+            $searchText = isset($_GET['text']) ? $_GET['text'] : '';
+
+            // SQL 쿼리에 사용될 조건
+            $condition = '';
+            if ($searchOption && $searchText) {
+                $condition = "AND $searchOption LIKE '%$searchText%'";
+            }
+
             // user 테이블 정보 가져오기 (전체 사용자)
-            $sql = "SELECT * FROM user WHERE u_role=1"; //관리자를 제외한 사용자만 찾는다.
+            $sql = "SELECT * FROM user WHERE u_role=1 $condition"; // 관리자를 제외한 사용자만 찾는다.
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -89,7 +115,7 @@
                 echo "</table>";
 
                 // 페이지네이션 출력
-                $result_total_items = $conn->query("SELECT COUNT(*) as total FROM user WHERE u_role=1");
+                $result_total_items = $conn->query("SELECT COUNT(*) as total FROM user WHERE u_role=1 $condition");
                 $row_total_items = $result_total_items->fetch_assoc();
                 $total_items = $row_total_items['total'];
                 $total_pages = ceil($total_items / $items_per_page);
