@@ -75,7 +75,7 @@
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
+                echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>반납 예정일 :</strong> " . $row_rental['rt_deadline'] . "</p></div>";
                 $todayDate = date("Y-m-d");
