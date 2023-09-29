@@ -78,6 +78,9 @@
             // 현재 페이지
             $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
+            // Rental 테이블 정보 가져오기 (검색)
+            $offset = ($current_page - 1) * $items_per_page;
+
             // 검색 옵션 및 텍스트
             $searchOption = isset($_GET['option']) ? $_GET['option'] : '';
             $searchText = isset($_GET['text']) ? $_GET['text'] : '';
@@ -89,7 +92,10 @@
             }
 
             // user 테이블 정보 가져오기 (전체 사용자)
-            $sql = "SELECT * FROM user WHERE u_role=1 $condition"; // 관리자를 제외한 사용자만 찾는다.
+            $sql = "SELECT * FROM user 
+                    WHERE u_role=1 $condition
+                    LIMIT $offset, $items_per_page";
+
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
