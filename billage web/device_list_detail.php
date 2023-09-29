@@ -53,10 +53,10 @@
                     echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_device['d_id'] . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_device['d_name'] . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_device['d_model'] . "</p></div>";
-                    echo "<div class='col-sm-6'><p><strong>세부 정보 :</strong> " . $row_device['d_info'] . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>기기 상태 :</strong> " . ($row_device['d_state'] == 0 ? '대여 가능' : '수리중') . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>카테고리 :</strong> " . $row_device['c_name'] . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_device['d_token'] . "</p></div>";
+                    echo "<div class='col-sm-12'><p><strong>세부 정보 :</strong> " . $row_device['d_info'] . "</p></div>";
                     echo "</div>";
                     echo "</div>";
                 } else {
@@ -69,8 +69,10 @@
                                 WHERE d_id = '$device_id'";
                 $result_rental = $conn->query($sql_rental);
 
+                echo "<br>";
+                echo "<h3>렌탈 정보</h3>";
                 if ($result_rental->num_rows > 0) {
-                    echo "<h3>렌탈 정보</h3>";
+                    
                     echo "<table border='1'>";
                     echo "<tr><th>렌탈 ID</th><th>대여자</th><th>예약일</th><th>수령일</th><th>반납 예정일</th><th>반납 현황</th><th>렌탈 상태</th></tr>";
 
@@ -109,7 +111,42 @@
 
                     echo "</table>";
                 } else {
+                    echo "<br>";
+                    echo "<br>";
                     echo "해당 기기의 렌탈 정보가 없습니다.";
+                    echo "<br>";
+                }
+
+                //수리 정보 불러오기
+                $sql_repair = "SELECT rp_id, rp_discover, rp_start, rp_return, rp_info
+                    FROM Repair
+                    WHERE d_id = '$device_id'";
+                $result_repair = $conn->query($sql_repair);
+
+                echo "<br>";
+                echo "<br>";
+                echo "<h3>수리 정보</h3>";
+                if ($result_repair->num_rows > 0) {
+                    
+                    echo "<table border='1'>";
+                    echo "<tr><th>수리 ID</th><th>고장 발견일</th><th>수리 시작일</th><th>수리 종료일</th><th>수리 정보</th></tr>";
+
+                    while($row_repair = $result_repair->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>" . $row_repair['rp_id'] . "</td>";
+                        echo "<td>" . $row_repair['rp_discover'] . "</td>";
+                        echo "<td>" . $row_repair['rp_start'] . "</td>";
+                        echo "<td>" . $row_repair['rp_return'] . "</td>";
+                        echo "<td>" . $row_repair['rp_info'] . "</td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</table>";
+                } else {
+                    echo "<br>";
+                    echo "<br>";
+                    echo "해당 기기의 수리 정보가 없습니다.";
+                    echo "<br>";
                 }
 
                 $conn->close();
@@ -119,10 +156,15 @@
             ?>
         </div>
 
-        <!-- 뒤로가기 버튼 -->
-        <div class="text-center">
-            <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
+        <br>
+        <br>
+
+        <!-- 뒤로가기 버튼과 기록검증 버튼 -->
+        <div class="text-center mt-4">
+            <button class="btn btn-primary">기록검증</button>
+            <a href="javascript:history.go(-1);" class="btn btn-secondary mr-2">뒤로가기</a>
         </div>
+
 
     </div>
 
