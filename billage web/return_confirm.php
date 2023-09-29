@@ -35,6 +35,12 @@
 <body>
     <div class="container">
 
+        <!-- 상단 메뉴 -->
+        <?php
+            // top.php 파일을 포함
+            include('top.php');
+        ?>
+
         <?php
         // 데이터베이스 연결
         require_once("db_connect.php");
@@ -52,7 +58,7 @@
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
+                echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>반납 예정일 :</strong> " . $row_rental['rt_deadline'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>현재 상태 :</strong> ";
@@ -84,9 +90,9 @@
                 echo "</div>";
 
                 // "반납확인" 버튼 추가
-                echo "<div class='text-center mt-4'>";
-                echo "<button class='btn btn-primary' onclick='confirmRow(\"" . $rental_id . "\")'>반납확인</button>";
-                echo "</div>";
+                //echo "<div class='text-center mt-4'>";
+                //echo "<button class='btn btn-primary' onclick='confirmRow(\"" . $rental_id . "\")'>반납확인</button>";
+                //echo "</div>";
             } else {
                 echo $rental_id;
                 echo "Rental not found.";
@@ -102,6 +108,7 @@
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
             <!-- <button class="btn btn-secondary" onclick="closeWindow()">닫기</button> -->
+            <button class='btn btn-primary' onclick='confirmRow("" . $rental_id . "")'>반납확인</button>
             <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
         </div>
 
