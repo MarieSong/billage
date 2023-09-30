@@ -576,41 +576,26 @@ const contractABI = [
 ];
 const contractAddress = '0xf0FE5a1b23c964bDf4981efc03673e895c5674aC';
 
-// NFT 전송 버튼 클릭 처리
-transferNFTButton.addEventListener('click', async () => {
-    const rentalIdElement = document.getElementById('rentalId');
-    const rental_id = rentalReturnElement.textContent.trim().split(' : ')[1];
+// 스마트 계약 인스턴스 생성
+const contract = new web3.eth.Contract(contractAbi, contractAddress);
 
-    const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
-    const recipient = '0x5a1CAF54f98De0712E68F039a78bce8Ec3437B8A';
+// 토큰 ID (여기서는 1로 가정)
+const tokenId = 1;
 
-    const rentalReturnElement = document.getElementById('rentalReturn');
-    const rental_return = rentalReturnElement.textContent.trim().split(' : ')[1];
-    //const repairHistory = document.getElementById('repairHistory').value.split(',');
-    
-    const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
-    let extractedNumber = 0;
-    if (numberArray !== null) {
-        for (const numberString of numberArray) {
-            extractedNumber = parseInt(numberString); // 추출된 문자열을 정수로 변환
-        }
-}   else {
-        console.log("숫자를 추출할 수 없습니다.");
-}
-    const rentalHistory = [rental_id, rental_return];
+// rentalHistory를 출력하는 함수
+async function printAllRentalHistory(tokenId) {
+  try {
+    const rentalHistoryCount = await contract.methods.getRentalHistoryCount(tokenId).call();
+    console.log(`토큰 ID ${tokenId}의 총 rentalHistory 개수: ${rentalHistoryCount}`);
 
-    try {
-        // MetaMask 권한 요청
-        const accounts = await window.ethereum.enable();
-
-        const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
-
-        // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, rentalHistory, []).send({ from: accounts[1], gas: 1000000, gasPrice: '3000000' });
-
-        //transferStatusElement.textContent = `NFT Transfer Successful`;
-    } catch (error) {
-        console.error('Error:', error);
-        //transferStatusElement.textContent = `Error: ${error.message}`;
+    for (let i = 0; i < rentalHistoryCount; i++) {
+      const rentalEvent = await contract.methods.getRentalHistoryAtIndex(tokenId, i).call();
+      console.log(`토큰 ID ${tokenId}의 rentalHistory[${i}]: ${rentalEvent}`);
     }
-});
+  } catch (error) {
+    console.error(`토큰 ID ${tokenId}의 rentalHistory를 가져오는 중 오류 발생:`, error);
+  }
+}
+
+// 함수 호출
+printAllRentalHistory(tokenId);

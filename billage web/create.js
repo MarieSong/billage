@@ -554,7 +554,7 @@ const contractABI = [
     }
 ];
 const contractAddress = '0x5CA10DFDf673EEcE82FCe934D17abe3d63Eb4DC2';
-
+console.log("hello0");
 // NFT 생성 양식 제출 처리
 generateTokenButton.addEventListener('click', async () => {
     try {
@@ -566,13 +566,29 @@ generateTokenButton.addEventListener('click', async () => {
         const serialNumber = document.getElementById('device_id').value;
 
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
-
+        console.log("hello1");
         // 스마트 계약의 createDeviceNFT 함수를 호출하여 NFT 생성
         const result = await deviceNFTContract.methods.createDeviceNFT(deviceName, modelName, serialNumber).send({ from: accounts[0], gas: 5000000, gasPrice: '50000000' });
+        console.log("hello2");
+        // 이벤트 핸들러
+        deviceNFTContract.events.NFTCreated()
+          .on('data', function(event) {
+            const tokenId = event.returnValues.tokenId;
+            console.log(tokenId);
+            tokenIdElement.textContent = `${tokenId}`;
+          })
+          .on('error', function(error) {
+            console.error('Event error:', error);
+          });
 
-        const tokenId = result.events.NFTCreated.returnValues.tokenId;
-        tokenIdElement.textContent = `${tokenId}`;
+        console.log("hello3");
     } catch (error) {
         console.error('Error:', error);
     }
+
+    /*
+    const tokenId = result.events.NFTCreated.returnValues.tokenId;
+    console.log(tokenId);
+    tokenIdElement.textContent = `${tokenId}`;
+    */
 });
