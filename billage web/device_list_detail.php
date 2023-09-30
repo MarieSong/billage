@@ -119,34 +119,48 @@
 
                 //수리 정보 불러오기
                 $sql_repair = "SELECT rp_id, rp_discover, rp_start, rp_return, rp_info
-                    FROM Repair
-                    WHERE d_id = '$device_id'";
+                FROM Repair
+                WHERE d_id = '$device_id'";
                 $result_repair = $conn->query($sql_repair);
 
                 echo "<br>";
                 echo "<br>";
                 echo "<h3>수리 정보</h3>";
                 if ($result_repair->num_rows > 0) {
-                    
-                    echo "<table border='1'>";
-                    echo "<tr><th>수리 ID</th><th>고장 발견일</th><th>수리 시작일</th><th>수리 종료일</th><th>수리 정보</th></tr>";
 
-                    while($row_repair = $result_repair->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>" . $row_repair['rp_id'] . "</td>";
-                        echo "<td>" . $row_repair['rp_discover'] . "</td>";
-                        echo "<td>" . $row_repair['rp_start'] . "</td>";
-                        echo "<td>" . $row_repair['rp_return'] . "</td>";
-                        echo "<td>" . $row_repair['rp_info'] . "</td>";
-                        echo "</tr>";
+                echo "<table border='1'>";
+                echo "<tr><th>수리 ID</th><th>고장 발견일</th><th>수리 시작일</th><th>수리 종료일</th><th>수리 정보</th></tr>";
+
+                while($row_repair = $result_repair->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row_repair['rp_id'] . "</td>";
+                    echo "<td>" . $row_repair['rp_discover'] . "</td>";
+                    echo "<td>" . $row_repair['rp_start'] . "</td>";
+                
+                    // Check if rp_return is null
+                    echo "<td>";
+                    if (is_null($row_repair['rp_return'])) {
+                        // Display '날짜 등록' button
+                        echo "<form action='device_repair_return.php' method='post'>";
+                        echo "<input type='hidden' name='rp_id' value='" . $row_repair['rp_id'] . "'>";
+                        echo "<input type='submit' class='btn btn-primary' value='날짜 등록'>";
+                        echo "</form>";
+                    } else {
+                        // Display rp_return date
+                        echo $row_repair['rp_return'];
                     }
+                    echo "</td>";
+                
+                    echo "<td>" . $row_repair['rp_info'] . "</td>";
+                    echo "</tr>";
+                }
 
-                    echo "</table>";
+                echo "</table>";
                 } else {
-                    echo "<br>";
-                    echo "<br>";
-                    echo "해당 기기의 수리 정보가 없습니다.";
-                    echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "해당 기기의 수리 정보가 없습니다.";
+                echo "<br>";
                 }
 
                 $conn->close();
@@ -162,7 +176,7 @@
         <!-- 뒤로가기 버튼과 기록검증 버튼 -->
         <div class="text-center mt-4">
             <button class="btn btn-primary">기록검증</button>
-            <a href="javascript:history.go(-1);" class="btn btn-secondary mr-2">뒤로가기</a>
+            <a href="device_list.php" class="btn btn-secondary mr-2">목록보기</a>
         </div>
 
 
