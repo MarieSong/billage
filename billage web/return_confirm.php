@@ -143,5 +143,8 @@
         </div>  -->
 
     </div>
+
+    <script src="web3.min.js"></script>
+    <script src="create.js"></script>
 </body>
 </html>
