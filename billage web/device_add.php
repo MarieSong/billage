@@ -67,7 +67,7 @@
                             $row_max_id = $result_max_id->fetch_assoc();
                             $max_id = $row_max_id['max_id'];
                             $next_id = $max_id + 1;
-                            $admin_id = '12345';
+                            $admin_id = $_SESSION['u_id'];
                             $d_id = 'd' . $admin_id . '-' . str_pad($next_id, 3, '0', STR_PAD_LEFT);
                         } else {
                             // 만약 데이터베이스에 아무런 레코드가 없다면 초기값으로 설정
@@ -179,7 +179,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="token_id">토큰 ID</label>
+                            <span>토큰 ID</span>
                             <br>
                             <span id="token_id" name="token_id" >토큰 생성 필요</span>
                         </div>

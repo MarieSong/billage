@@ -106,6 +106,7 @@ session_start();
                     <ul class="submenu">
                         <li><a href="device_list.php">기기검색</a></li>
                         <li><a href="device_add.php">기기등록</a></li>
+                        <li><a href="device_repair.php">수리기록작성</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

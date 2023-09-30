@@ -569,19 +569,9 @@ generateTokenButton.addEventListener('click', async () => {
         console.log("hello1");
         // 스마트 계약의 createDeviceNFT 함수를 호출하여 NFT 생성
         const result = await deviceNFTContract.methods.createDeviceNFT(deviceName, modelName, serialNumber).send({ from: accounts[0], gas: 5000000, gasPrice: '50000000' });
-        console.log("hello2");
-        // 이벤트 핸들러
-        deviceNFTContract.events.NFTCreated()
-          .on('data', function(event) {
-            const tokenId = event.returnValues.tokenId;
-            console.log(tokenId);
-            tokenIdElement.textContent = `${tokenId}`;
-          })
-          .on('error', function(error) {
-            console.error('Event error:', error);
-          });
 
-        console.log("hello3");
+        const tokenId = result.events.NFTCreated.returnValues.tokenId;
+        tokenIdElement.textContent = `${tokenId}`;
     } catch (error) {
         console.error('Error:', error);
     }

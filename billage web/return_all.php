@@ -101,7 +101,7 @@
                     echo "</td>"; // 수령상태
 
                     // '확인' 버튼 추가
-                    echo "<td>";
+                    zzecho "<td>";
                     echo "<button type='button' class='btn btn-info' onclick='openConfirmPage(\"" . $row['rt_id'] . "\")'>확인</button>";
                     echo "</td>";
 
