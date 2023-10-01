@@ -30,9 +30,28 @@
         }
     </style>
 
+    <script>
+        function openDeviceSearch() {
+            // 새 창 열기
+            var deviceSearchWindow = window.open('device_repair_devicesearch.php', '_blank', 'width=600,height=400');
+
+            /* 새 창이 로드될 때 실행될 콜백 함수 정의
+            deviceSearchWindow.onload = function() {
+                // 부모 창으로부터 기기 정보를 받아온다면
+                deviceSearchWindow.onDeviceSelected = function(deviceId, deviceToken) {
+                    // 받아온 기기 정보를 텍스트 창에 설정
+                    
+                };
+            };*/
+        }
+
+        function onDeviceSelected(deviceId, deviceToken) {
+            document.getElementById('device_id').value = deviceId;
+            document.getElementById('device_token').value = deviceToken;
+        }
+    </script>
+
     
-
-
 </head>
 <body>
     <div class="container">
@@ -96,7 +115,16 @@
                 </div>
                 <div class="form-group">
                     <label for="device_id">기기 ID</label>
-                    <input type="text" class="form-control" id="device_id" name="device_id" required>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="device_id" name="device_id" readonly>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary" onclick="openDeviceSearch()">찾기</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="device_tokne">토큰 ID</label>
+                    <input type="text" class="form-control" id="device_token" name="device_token" readonly>
                 </div>
                 <div class="form-group">
                     <label for="repiar_discover">고장 발견일</label>
@@ -131,6 +159,8 @@
     
     <script src="js/web3.min.js"></script>
     <script src="js/repair.js"></script>
+
+    
 
     <!-- 하단 메뉴 -->
     <?php
