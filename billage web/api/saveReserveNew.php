@@ -3,10 +3,10 @@
     require_once("../db_connect.php");
 
     // POST로 전달받은 값들
-    $user_id = $_POST['user_id'];
-    $device_id = $_POST['device_id'];
-    $rental_start = $_POST['rental_start'];
-    $rental_deadline = $_POST['rental_deadline'];
+    $user_id = $_GET['user_id'];
+    $device_id = $_GET['device_id'];
+    $rental_start = $_GET['rental_start'];
+    $rental_deadline = $_GET['rental_deadline'];
 
     // 사용자가 이미 대여한 기기가 있는지 확인
     $check_user_rental_sql = "SELECT COUNT(*) AS count

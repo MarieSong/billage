@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
     header('Content-Type: application/json');
     echo json_encode($data);
 } else {
-    echo "No data available";
+    $data = null;
 }
 
 // 데이터베이스 연결 닫기

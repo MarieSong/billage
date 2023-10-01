@@ -3,9 +3,9 @@
     require_once("../db_connect.php");
 
     // POST로 전달받은 카테고리 id, 시작일, 종료일
-    $category_id = $_POST['category_id'];
-    $rental_start = $_POST['rental_start'];
-    $rental_deadline = $_POST['rental_deadline'];
+    $category_id = $_GET['category_id'];
+    $rental_start = $_GET['rental_start'];
+    $rental_deadline = $_GET['rental_deadline'];
 
     // SQL 쿼리 작성
     $sql = "SELECT *
@@ -31,7 +31,7 @@
         header('Content-Type: application/json');
         echo json_encode($data);
     } else {
-        echo "No available devices";
+        $data = null;
     }
 
     // 데이터베이스 연결 닫기
