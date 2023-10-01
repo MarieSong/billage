@@ -40,9 +40,9 @@
         if(isset($_POST['rp_id'])) {
             $repair_id = $_POST['rp_id'];
 
-            $sql_repair = "SELECT rp_id, d_id, rp_discover, rp_start, rp_info, rp_return
-                           FROM Repair
-                           WHERE rp_id = '$repair_id'";
+            $sql_repair = "SELECT rp_id, Device.d_id, rp_discover, rp_start, rp_info, rp_return, d_token
+                           FROM Repair, Device
+                           WHERE Repair.d_id = Device.d_id AND rp_id = '$repair_id'";
             $result_repair = $conn->query($sql_repair);
 
             if ($result_repair->num_rows > 0) {
@@ -52,9 +52,10 @@
                 echo "<div class='row'>";
                 echo "<div class='col-sm-6'><p><strong>수리 ID :</strong> " . $row_repair['rp_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>수리 기기 ID :</strong> " . $row_repair['d_id'] . "</p></div>";
+                echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_repair['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>고장 발견일 :</strong> " . $row_repair['rp_discover'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>수리 맡긴 날짜 :</strong> " . $row_repair['rp_start'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>수리 정보 :</strong> " . $row_repair['rp_info'] . "</p></div>";
+                
                 echo "<div class='col-sm-6'>";
                 if (is_null($row_repair['rp_return'])) {
                     // If rp_return is null, display input field
@@ -69,6 +70,9 @@
                     echo "<span id='rp_return'>" . $row_repair['rp_return'] . "</span>";
                 }
                 echo "</div>";
+
+                echo "<div class='col-sm-12'><p><strong>수리 정보 :</strong> " . $row_repair['rp_info'] . "</p></div>";
+
                 echo "</div>";
                 echo "</div>";
             } else {

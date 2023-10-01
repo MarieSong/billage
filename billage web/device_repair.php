@@ -71,7 +71,7 @@
         <div class="input-container">
 
             <!-- 기기 정보 입력 폼 -->
-            <form id="createNFTForm" action="device_repair_dataprocess.php" method="POST">
+            
                 <div class="form-group">
                     <label for="repair_id">수리 ID</label>
                     <?php
@@ -127,8 +127,8 @@
                     <input type="text" class="form-control" id="device_token" name="device_token" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="repiar_discover">고장 발견일</label>
-                    <input type="date" class="form-control" id="repiar_discover" name="repair_discover" required>
+                    <label for="repair_discover">고장 발견일</label>
+                    <input type="date" class="form-control" id="repair_discover" name="repair_discover" required>
                 </div>
                 <div class="form-group">
                     <label for="repair_start">수리 시작일</label>
@@ -145,11 +145,55 @@
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
                     <div class="mx-2">
-                        <button type="submit" class="button-submit btn btn-primary" id='repairEnter'>등록</button>
+                        <button type="button" class="btn btn-primary" id='repairEnter' onclick="submitForm()">등록</button>
                     </div>
                 </div>
                 
-            </form>
+            
+
+            <script>
+                function submitForm() {
+                    // 입력값 가져오기
+                    var repair_id = document.getElementById('repair_id').value;
+                    var device_id = document.getElementById('device_id').value;
+                    var device_token = document.getElementById('device_token').value;
+                    var repair_discover = document.getElementById('repair_discover').value;
+                    var repair_start = document.getElementById('repair_start').value;
+                    var repair_info = document.getElementById('repair_info').value;
+
+                    // 데이터를 FormData 객체로 만들어서 전송
+                    var formData = new FormData();
+                    formData.append('repair_id', repair_id);
+                    formData.append('device_id', device_id);
+                    formData.append('device_token', device_token);
+                    formData.append('repair_discover', repair_discover);
+                    formData.append('repair_start', repair_start);
+                    formData.append('repair_info', repair_info);
+
+                    // AJAX를 사용하여 폼 데이터를 서버에 전송
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'device_repair_dataprocess.php', true);
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            // 서버에서 응답을 받았을 때 수행할 작업
+                            if (xhr.responseText === 'Success') {
+                                alert('저장 완료.');
+                            } else {
+                                // 에러 처리
+                                console.error('Error:', xhr.responxeText);
+                            }
+                        } else {
+                            // 에러 처리
+                            console.error('Error:', xhr);
+                        }
+                    };
+                    xhr.onerror = function () {
+                        // 통신 중 에러 발생
+                        console.error('Network Error');
+                    };
+                    xhr.send(formData);
+                }
+            </script>
         </div>
 
     
