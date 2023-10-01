@@ -577,25 +577,27 @@ const contractAddress = '0xf0FE5a1b23c964bDf4981efc03673e895c5674aC';
 
 // NFT 전송 버튼 클릭 처리
 transferNFTButton.addEventListener('click', async () => {
-    const repairId = document.getElementById('rp_id');
+    const repairIdElement = document.getElementById('repairId');
+	const repair_id = repairIdElement.textContent.trim().split(' : ')[1];
 
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
     
     const sender = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
 	const recipient = '0x5a1CAF54f98De0712E68F039a78bce8Ec3437B8A';
 
-    const repairReturn = document.getElementById('rp_return');
+    const repairReturn = document.getElementById('repair_return').value;
         
     const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
     let extractedNumber = 0;
     if (numberArray !== null) {
         for (const numberString of numberArray) {
             extractedNumber = parseInt(numberString); // 추출된 문자열을 정수로 변환
-        }
+		}
 }   else {
         console.log("숫자를 추출할 수 없습니다.");
 }
-    const repairHistory = [repairId, repairReturn];
+
+    const repairHistory = [repair_id, repairReturn];
 
     try {
         // MetaMask 권한 요청
