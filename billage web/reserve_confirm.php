@@ -75,7 +75,7 @@
                 
                 //echo "<h2>User Information</h2>";
                 echo "<div class='row'>";
-                echo "<div class='col-sm-6'><p><strong>예약 ID :</strong> " . $row_rental['rt_id'] . "</p></div>";
+                echo "<div class='col-sm-6' id='rentalId'><p><strong>예약 ID :</strong> " . $row_rental['rt_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
