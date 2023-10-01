@@ -125,15 +125,15 @@
         $conn->close();
         ?>
 
-    <script src="js/web3.min.js"></script>
-    <script src="js/rent.js"></script>
-
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
             <button class='btn btn-primary' id='transferNFT' onclick='confirmRow("" . $rental_id . "")'>수령확인</button>
             <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
         </div>
 
+        <script src="js/web3.min.js"></script>
+        <script src="js/rent.js"></script>
+        
         <script>
             document.addEventListener('DOMContentLoaded', function() {
             var rtStart = "<?php echo $row_rental['rt_start']; ?>";
@@ -148,7 +148,7 @@
                 button.disabled = true;
             }
             });
-</script>
+        </script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -165,8 +165,6 @@
             }
             });
         </script>
-        <script src="js/web3.min.js"></script>
-        <script src="js/rent.js"></script>
 
     </div>
 </body>
