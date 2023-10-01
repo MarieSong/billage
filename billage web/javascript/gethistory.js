@@ -1,7 +1,7 @@
 // Web3.js 설정
 const web3 = new Web3(window.ethereum);
 
-const transferNFTButton = document.getElementById('transferNFT');
+const getHistoryButton = document.getElementById('getHistory');
 //const transferStatusElement = document.getElementById('transferStatus');
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
@@ -576,26 +576,37 @@ const contractABI = [
 ];
 const contractAddress = '0xf0FE5a1b23c964bDf4981efc03673e895c5674aC';
 
-// 스마트 계약 인스턴스 생성
-const contract = new web3.eth.Contract(contractAbi, contractAddress);
-
-// 토큰 ID (여기서는 1로 가정)
-const tokenId = 1;
-
-// rentalHistory를 출력하는 함수
-async function printAllRentalHistory(tokenId) {
-  try {
-    const rentalHistoryCount = await contract.methods.getRentalHistoryCount(tokenId).call();
-    console.log(`토큰 ID ${tokenId}의 총 rentalHistory 개수: ${rentalHistoryCount}`);
-
-    for (let i = 0; i < rentalHistoryCount; i++) {
-      const rentalEvent = await contract.methods.getRentalHistoryAtIndex(tokenId, i).call();
-      console.log(`토큰 ID ${tokenId}의 rentalHistory[${i}]: ${rentalEvent}`);
+// NFT 전송 버튼 클릭 처리
+getHistoryButton.addEventListener('click', async () => {
+	const tokenIdTransfer = document.getElementById('tokenId').textContent;
+	
+	const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
+    let extractedNumber = 0;
+    if (numberArray !== null) {
+        for (const numberString of numberArray) {
+            extractedNumber = parseInt(numberString); // 추출된 문자열을 정수로 변환
+		}
     }
-  } catch (error) {
-    console.error(`토큰 ID ${tokenId}의 rentalHistory를 가져오는 중 오류 발생:`, error);
-  }
-}
-
-// 함수 호출
-printAllRentalHistory(tokenId);
+    else {
+        console.log("숫자를 추출할 수 없습니다.");
+    }
+    
+	try {
+		// MetaMask 권한 요청
+		const accounts = await window.ethereum.enable();
+	
+		const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
+		const rentalHistory = await deviceNFTContract.methods.getRentalHistory(extractedNumber).call();
+		const repairHistory = await deviceNFTContract.methods.getRepairHistory(extractedNumber).call();
+		console.log(`rental history`);
+		for (let i = 0; i < rentalHistory.length; i++) {
+			console.log(`${i + 1}. ${rentalHistory[i]}`);
+		  }
+		console.log(`repair history`);
+		for (let i = 0; i < repairHistory.length; i++) {
+			console.log(`${i + 1}. ${repairHistory[i]}`);
+		  }
+		} catch (error) {
+		  console.error(`대여 이력 조회 중 오류 발생:`, error);
+		}
+});
