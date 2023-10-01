@@ -117,7 +117,7 @@
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
                     <div class="mx-2">
-                        <button type="submit" class="button-submit btn btn-primary">등록</button>
+                        <button type="submit" class="button-submit btn btn-primary" id='repairEnter'>등록</button>
                     </div>
                 </div>
                 
@@ -127,12 +127,10 @@
     
         
     </div>
+
     
-    <script src="web3.min.js"></script>
-    <script src="create.js"></script>
-    
-    <!--<script src="web3.min.js"></script>
-    <script src="create.js"></script>-->
+    <script src="js/web3.min.js"></script>
+    <script src="js/repair.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php

@@ -1,7 +1,7 @@
 // Web3.js 설정
 const web3 = new Web3(window.ethereum);
 
-const transferNFTButton = document.getElementById('transferNFT');
+const transferNFTButton = document.getElementById('repairEnter');
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
 const contractABI = [
@@ -577,25 +577,31 @@ const contractAddress = '0xf0FE5a1b23c964bDf4981efc03673e895c5674aC';
 
 // NFT 전송 버튼 클릭 처리
 transferNFTButton.addEventListener('click', async () => {
-    // 예약 ID 처리
-    const rentalIdElement = document.getElementById("rentalId");
-    const rentalId = rentalIdElement.textContent.trim().split(' : ')[1];
+    // 수리 ID 처리
+    const repairId = document.getElementById("repair_id").value;
     
-    const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
+    // 토큰 ID 처리
+    const tokenIdTransfer = document.getElementById('tokenIdTransfer').value;
     const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
 
-    // 대여자 ID 처리
-    const userIdElement = document.getElementById('userId');
-    const user_id = userIdElement.textContent.trim().split(' : ')[1];
+    // 고장 발견일 처리
+    const repairDiscover = document.getElementById('repair_discover').value;
     
-    // 대여 시작일 처리
-    const rentalStartElement = document.getElementById('rentalStart');
-    const rental_start = rentalStartElement.textContent.trim().split(' : ')[1];
+    // 수리 시작일 처리
+    const repairStart = document.getElementById('repair_start').value;
 
-    // 반납 예정일 처리
-    const rentalDeadlineElement = document.getElementById('rentalDeadline');
-    const rental_deadline = rentalDeadlineElement.textContent.trim().split(' : ')[1];
+    // 수리 내용 처리
+    const repairInfo = document.getElementById('repair_info').value;
+
+    // repairHistory 배열에 저장 (원하는 형태로 가공해서 저장 가능)
+    const repairHistory = [
+        repairId,
+        repairDiscover,
+        repairStart,
+        repairInfo
+        ];
     
+    /*
     const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
     let extractedNumber = 0;
     if (numberArray !== null) {
@@ -606,14 +612,7 @@ transferNFTButton.addEventListener('click', async () => {
     else {
         console.log("숫자를 추출할 수 없습니다.");
     }
-    
-    // rentalHistory 배열에 저장 (원하는 형태로 가공해서 저장 가능)
-    const rentalHistory = [
-    rentalId,
-    user_id,
-    rental_start,
-    rental_deadline
-    ];
+    */
 
     try {
         // MetaMask 권한 요청
@@ -622,10 +621,11 @@ transferNFTButton.addEventListener('click', async () => {
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, rentalHistory, []).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
+        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, [],repairHistory).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
 
+        //transferStatusElement.textContent = `NFT Transfer Successful`;
     } catch (error) {
-		console.error('Error:', error);
+        console.error('Error:', error);
         //transferStatusElement.textContent = `Error: ${error.message}`;
     }
 });

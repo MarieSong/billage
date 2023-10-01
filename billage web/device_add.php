@@ -205,8 +205,8 @@
     </div>
 
     
-    <script src="web3.min.js"></script>
-    <script src="create.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/create.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php

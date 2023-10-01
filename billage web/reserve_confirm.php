@@ -79,8 +79,8 @@
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
                 echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
-                echo "<div class='col-sm-6' id='rentalHistory'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>대여 시작일 :</strong> " . $row_rental['rt_start'] . "</p></div>";
+                echo "<div class='col-sm-6' id='userId'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
+                echo "<div class='col-sm-6' id='rentalStart'><p><strong>대여 시작일 :</strong> " . $row_rental['rt_start'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>현재 상태 :</strong> ";
 
                 // rt_state에 따른 상태 표시
@@ -125,8 +125,8 @@
         $conn->close();
         ?>
 
-    <script src="web3.min.js"></script>
-    <script src="rent.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/rent.js"></script>
 
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
@@ -165,8 +165,8 @@
             }
             });
         </script>
-        <script src="web3.min.js"></script>
-        <script src="rent.js"></script>
+        <script src="js/web3.min.js"></script>
+        <script src="js/rent.js"></script>
 
     </div>
 </body>
