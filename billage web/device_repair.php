@@ -129,8 +129,8 @@
     </div>
 
     
-    <script src="web3.min.js"></script>
-    <script src="repair.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/repair.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php

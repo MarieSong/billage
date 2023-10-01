@@ -60,13 +60,13 @@
                     // If rp_return is null, display input field
                     echo "<form action='device_repair_return_dataprocess.php' method='post'>";
                     echo "<p><strong>수리 반환 일자 :</strong> ";
-                    echo "<input type='hidden' name='rp_id' value='" . $row_repair['rp_id'] . "'>";
+                    echo "<input type='hidden' name='rp_id' id='rp_id' value='" . $row_repair['rp_id'] . "'>";
                     echo "<input type='date' class='form-control' name='rp_return_date' style='display: inline-block; width: 150px; margin-right: 10px;'>";
-                    echo "<input type='submit' class='btn btn-primary' value='저장'>";
+                    echo "<input type='submit' class='btn btn-primary' id='repairSubmit' value='저장'>";
                     echo "</p></form>";
                 } else {
                     // If rp_return has a value, display it
-                    echo $row_repair['rp_return'];
+                    echo "<span id='rp_return'>" . $row_repair['rp_return'] . "</span>";
                 }
                 echo "</div>";
                 echo "</div>";
@@ -81,6 +81,9 @@
         }
         ?>
     </div>
+
+    <script src="js/web3.min.js"></script>
+    <script src="js/repair_return.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php
