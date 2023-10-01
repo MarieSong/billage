@@ -578,7 +578,7 @@ const contractAddress = '0xf0FE5a1b23c964bDf4981efc03673e895c5674aC';
 // NFT 전송 버튼 클릭 처리
 transferNFTButton.addEventListener('click', async () => {
     // 예약 ID 처리
-    const rentalIdElement = document.getElementById("rentalId");
+    const rentalIdElement = document.getElementById('rentalId');
     const rentalId = rentalIdElement.textContent.trim().split(' : ')[1];
     
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
@@ -587,7 +587,7 @@ transferNFTButton.addEventListener('click', async () => {
     // 대여자 ID 처리
     const userIdElement = document.getElementById('userId');
     const user_id = userIdElement.textContent.trim().split(' : ')[1];
-    
+
     // 대여 시작일 처리
     const rentalStartElement = document.getElementById('rentalStart');
     const rental_start = rentalStartElement.textContent.trim().split(' : ')[1];
@@ -601,12 +601,13 @@ transferNFTButton.addEventListener('click', async () => {
     if (numberArray !== null) {
         for (const numberString of numberArray) {
             extractedNumber = parseInt(numberString); // 추출된 문자열을 정수로 변환
-        }
+		}
     }
     else {
         console.log("숫자를 추출할 수 없습니다.");
     }
     
+
     // rentalHistory 배열에 저장 (원하는 형태로 가공해서 저장 가능)
     const rentalHistory = [
     rentalId,

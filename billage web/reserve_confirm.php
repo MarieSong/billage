@@ -75,12 +75,14 @@
                 
                 //echo "<h2>User Information</h2>";
                 echo "<div class='row'>";
+                echo "<div class='col-sm-6' id='rentalId'><p><strong>예약 ID :</strong> " . $row_rental['rt_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 ID :</strong> " . $row_rental['d_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>기기 이름 :</strong> " . $row_rental['d_name'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_rental['d_model'] . "</p></div>";
                 echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_rental['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6' id='userId'><p><strong>대여자 ID :</strong> " . $row_rental['u_id'] . "</p></div>";
                 echo "<div class='col-sm-6' id='rentalStart'><p><strong>대여 시작일 :</strong> " . $row_rental['rt_start'] . "</p></div>";
+                echo "<div class='col-sm-6' id='rentalDeadline'><p><strong>반납 예정일 :</strong> " . $row_rental['rt_deadline'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>현재 상태 :</strong> ";
 
                 // rt_state에 따른 상태 표시
@@ -107,7 +109,10 @@
                 }
 
                 echo "</p></div>";
+                
                 echo "</div>";
+
+
 
                 // "수령확인" 버튼 추가
                 //echo "<div class='text-center mt-4'>";
@@ -127,7 +132,7 @@
 
         <!-- 닫기 버튼 추가 -->
         <div class="text-center mt-4">
-            <button class='btn btn-primary' id='transferNFT' onclick='confirmRow("" . $rental_id . "")'>수령확인</button>
+        <button class='btn btn-primary' id='transferNFT' onclick='confirmRow("<?php echo $rental_id; ?>")'>수령확인</button>
             <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
         </div>
 
