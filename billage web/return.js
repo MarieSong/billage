@@ -1,8 +1,7 @@
 // Web3.js 설정
 const web3 = new Web3(window.ethereum);
 
-const transferNFTButton = document.getElementById('transferNFT');
-//const transferStatusElement = document.getElementById('transferStatus');
+const transferNFTButton = document.getElementById('confirmButton');
 
 // 스마트 계약 ABI (계약 인터페이스) 및 주소를 지역 변수로 정의
 const contractABI = [
@@ -584,10 +583,9 @@ transferNFTButton.addEventListener('click', async () => {
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
     const recipient = '0x5a1CAF54f98De0712E68F039a78bce8Ec3437B8A';
 
-    const rentalReturnElement = document.getElementById('rentalReturn');
+    const rentalReturnElement = document.getElementById('todayDate');
     const rental_return = rentalReturnElement.textContent.trim().split(' : ')[1];
-    //const repairHistory = document.getElementById('repairHistory').value.split(',');
-    
+        
     const numberArray = tokenIdTransfer.match(/\d+/g); // 정규 표현식을 사용하여 모든 숫자 추출
     let extractedNumber = 0;
     if (numberArray !== null) {

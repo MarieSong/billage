@@ -603,5 +603,6 @@ generateTokenButton.addEventListener('click', async () => {
         tokenIdElement.textContent = `${tokenId}`;
     } catch (error) {
         console.error('Error:', error);
+		tokenIdElement.textContent = `Error: ${error.message}`;
     }
 });
