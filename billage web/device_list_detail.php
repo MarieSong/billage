@@ -55,7 +55,7 @@
                     echo "<div class='col-sm-6'><p><strong>모델명 :</strong> " . $row_device['d_model'] . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>기기 상태 :</strong> " . ($row_device['d_state'] == 0 ? '대여 가능' : '수리중') . "</p></div>";
                     echo "<div class='col-sm-6'><p><strong>카테고리 :</strong> " . $row_device['c_name'] . "</p></div>";
-                    echo "<div class='col-sm-6'><p><strong>토큰 ID :</strong> " . $row_device['d_token'] . "</p></div>";
+                    echo "<div class='col-sm-6' id='tokenId'><p><strong>토큰 ID :</strong> " . $row_device['d_token'] . "</p></div>";
                     echo "<div class='col-sm-12'><p><strong>세부 정보 :</strong> " . $row_device['d_info'] . "</p></div>";
                     echo "</div>";
                     echo "</div>";
@@ -175,12 +175,15 @@
 
         <!-- 뒤로가기 버튼과 기록검증 버튼 -->
         <div class="text-center mt-4">
-            <button class="btn btn-primary">기록검증</button>
+            <button class="btn btn-primary" id='getHistory'>기록검증</button>
             <a href="device_list.php" class="btn btn-secondary mr-2">목록보기</a>
         </div>
 
 
     </div>
+
+    <script src="js/web3.min.js"></script>
+    <script src="js/gethistory.js"></script>
 
     <!-- 하단 메뉴 -->
     <?php
