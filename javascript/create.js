@@ -3,7 +3,7 @@ const web3 = new Web3(window.ethereum);
 
 // HTML 요소 가져오기
 const createNFTForm = document.getElementById('createNFTForm');
-const tokenIdElement = document.getElementById('token_id');
+//const tokenIdElement = document.getElementById('token_id');
 const generateTokenButton = document.getElementById('generateTokenButton'); // '토큰 생성' 버튼 추가
 
 /*const transferNFTButton = document.getElementById('transferNFT');
@@ -600,7 +600,8 @@ generateTokenButton.addEventListener('click', async () => {
 
 
         const tokenId = result.events.NFTCreated.returnValues.tokenId;
-        tokenIdElement.textContent = `${tokenId}`;
+        //tokenIdElement.textContent = `${tokenId}`;
+		document.getElementById('token_id').value = tokenId; // generatedToken은 생성된 토큰 값
     } catch (error) {
         console.error('Error:', error);
 		tokenIdElement.textContent = `Error: ${error.message}`;

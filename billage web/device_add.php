@@ -179,14 +179,17 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <span>토큰 ID</span>
-                            <br>
-                            <span id="token_id" name="token_id" >토큰 생성 필요</span>
+                            <label for="token_id">토큰 ID</label>
+                            <input type="text" class="form-control" id="token_id" name="token_id" value="토큰 생성 필요" readonly>
                         </div>
                     </div>
                 </div>
 
-                
+                <!-- 토큰 ID 입력 폼 
+                <div class="form-group">
+                    <input type="hidden" id="device_token" name="device_token">
+                </div> -->
+
                 <!-- 버튼을 중앙에 정렬하는 클래스 추가 -->
                 <div class="center-button">
                     <div class="mx-2">

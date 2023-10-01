@@ -40,9 +40,9 @@
         if(isset($_POST['rp_id'])) {
             $repair_id = $_POST['rp_id'];
 
-            $sql_repair = "SELECT rp_id, d_id, rp_discover, rp_start, rp_info, rp_return
-                           FROM Repair
-                           WHERE rp_id = '$repair_id'";
+            $sql_repair = "SELECT rp_id, Device.d_id, rp_discover, rp_start, rp_info, rp_return, d_token
+                           FROM Repair, Device
+                           WHERE Repair.d_id = Device.d_id AND rp_id = '$repair_id'";
             $result_repair = $conn->query($sql_repair);
 
             if ($result_repair->num_rows > 0) {
@@ -50,18 +50,19 @@
                 echo "<h3>수리 정보</h3>";
                 echo "<div class='repair-info'>";
                 echo "<div class='row'>";
-                echo "<div class='col-sm-6'><p><strong>수리 ID :</strong> " . $row_repair['rp_id'] . "</p></div>";
+                echo "<div class='col-sm-6' id='repairId'><p><strong>수리 ID :</strong> " . $row_repair['rp_id'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>수리 기기 ID :</strong> " . $row_repair['d_id'] . "</p></div>";
+                echo "<div class='col-sm-6' id='tokenIdTransfer'><p><strong>토큰 ID :</strong> " . $row_repair['d_token'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>고장 발견일 :</strong> " . $row_repair['rp_discover'] . "</p></div>";
                 echo "<div class='col-sm-6'><p><strong>수리 맡긴 날짜 :</strong> " . $row_repair['rp_start'] . "</p></div>";
-                echo "<div class='col-sm-6'><p><strong>수리 정보 :</strong> " . $row_repair['rp_info'] . "</p></div>";
+                
                 echo "<div class='col-sm-6'>";
                 if (is_null($row_repair['rp_return'])) {
                     // If rp_return is null, display input field
                     echo "<form action='device_repair_return_dataprocess.php' method='post'>";
                     echo "<p><strong>수리 반환 일자 :</strong> ";
                     echo "<input type='hidden' name='rp_id' id='rp_id' value='" . $row_repair['rp_id'] . "'>";
-                    echo "<input type='date' class='form-control' name='rp_return_date' style='display: inline-block; width: 150px; margin-right: 10px;'>";
+                    echo "<input type='date' class='form-control' id ='repair_return' name='rp_return_date' style='display: inline-block; width: 150px; margin-right: 10px;'>";
                     echo "<input type='submit' class='btn btn-primary' id='repairSubmit' value='저장'>";
                     echo "</p></form>";
                 } else {
@@ -69,6 +70,9 @@
                     echo "<span id='rp_return'>" . $row_repair['rp_return'] . "</span>";
                 }
                 echo "</div>";
+
+                echo "<div class='col-sm-12'><p><strong>수리 정보 :</strong> " . $row_repair['rp_info'] . "</p></div>";
+
                 echo "</div>";
                 echo "</div>";
             } else {

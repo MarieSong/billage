@@ -581,17 +581,18 @@ transferNFTButton.addEventListener('click', async () => {
     const repairId = document.getElementById("repair_id").value;
     
     // 토큰 ID 처리
-    const tokenIdTransfer = document.getElementById('tokenIdTransfer').value;
+    const tokenIdTransfer = document.getElementById("device_token").value;
     const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
 
     // 고장 발견일 처리
-    const repairDiscover = document.getElementById('repair_discover').value;
-    
+    const repairDiscover = document.getElementById("repair_discover").value;
+
     // 수리 시작일 처리
-    const repairStart = document.getElementById('repair_start').value;
+    const repairStart = document.getElementById("repair_start").value;
 
     // 수리 내용 처리
-    const repairInfo = document.getElementById('repair_info').value;
+    const repairInfo = document.getElementById("repair_info").value;
+
 
     // repairHistory 배열에 저장 (원하는 형태로 가공해서 저장 가능)
     const repairHistory = [
@@ -621,7 +622,7 @@ transferNFTButton.addEventListener('click', async () => {
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, [],repairHistory).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
+        await deviceNFTContract.methods.transferDeviceNFT(tokenIdTransfer, recipient, [],repairHistory).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
 
         //transferStatusElement.textContent = `NFT Transfer Successful`;
     } catch (error) {

@@ -127,8 +127,8 @@
                     <input type="text" class="form-control" id="device_token" name="device_token" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="repiar_discover">고장 발견일</label>
-                    <input type="date" class="form-control" id="repiar_discover" name="repair_discover" required>
+                    <label for="repair_discover">고장 발견일</label>
+                    <input type="date" class="form-control" id="repair_discover" name="repair_discover" required>
                 </div>
                 <div class="form-group">
                     <label for="repair_start">수리 시작일</label>

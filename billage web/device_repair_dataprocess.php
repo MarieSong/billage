@@ -24,8 +24,8 @@
 
             echo "<script>
                     setTimeout(function() {
-                        alert('기기 등록을 완료했습니다.');
-                        window.location.href = 'device_repair.php';
+                        
+                        window.location.replace('device_repair.php');
                     }, 100); // 100 밀리초(0.1초) 후에 실행
                   </script>";
         } else { //실패한 경우(에러 처리)
