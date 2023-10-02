@@ -32,6 +32,8 @@
         echo json_encode($data);
     } else {
         $data = null;
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 
     // 데이터베이스 연결 닫기
