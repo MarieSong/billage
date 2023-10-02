@@ -593,7 +593,6 @@ transferNFTButton.addEventListener('click', async () => {
     // 수리 내용 처리
     const repairInfo = document.getElementById("repair_info").value;
 
-
     // repairHistory 배열에 저장 (원하는 형태로 가공해서 저장 가능)
     const repairHistory = [
         repairId,
