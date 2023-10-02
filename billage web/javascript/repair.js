@@ -599,7 +599,7 @@ transferNFTButton.addEventListener('click', async () => {
         repairId,
         repairDiscover,
         repairStart,
-        repairInfo
+		repairInfo
         ];
     
     /*
@@ -622,7 +622,7 @@ transferNFTButton.addEventListener('click', async () => {
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(tokenIdTransfer, recipient, [],repairHistory).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
+        await deviceNFTContract.methods.transferDeviceNFT(tokenIdTransfer, recipient,[], repairHistory).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
 
         //transferStatusElement.textContent = `NFT Transfer Successful`;
     } catch (error) {

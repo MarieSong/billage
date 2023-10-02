@@ -594,12 +594,14 @@ getHistoryButton.addEventListener('click', async () => {
 	try {
 		// MetaMask 권한 요청
 		const accounts = await window.ethereum.enable();
-	
+		const decodingData = [];
+
 		const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 		const rentalHistory = await deviceNFTContract.methods.getRentalHistory(extractedNumber).call();
 		const repairHistory = await deviceNFTContract.methods.getRepairHistory(extractedNumber).call();
 		console.log(`rental history`);
 		for (let i = 0; i < rentalHistory.length; i++) {
+
 			console.log(`${i + 1}. ${rentalHistory[i]}`);
 		  }
 		console.log(`repair history`);
