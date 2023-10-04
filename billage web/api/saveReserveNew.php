@@ -19,7 +19,11 @@
         $count = $row['count'];
         
         if ($count > 0) {
-            echo "fail"; // 이미 대여한 기기가 있음
+            // 이미 대여한 기기가 있음
+            $response = array('status' => 'fail_already');
+            // JSON 형태로 출력
+            header('Content-Type: application/json');
+            echo json_encode($response);
             exit();
         }
     }
@@ -37,18 +41,47 @@
         $count = $row['count'];
         
         if ($count > 0) {
-            echo "fail"; // 기기가 이미 대여됨
+            // 기기가 이미 대여 됨(실패)
+            $response = array('status' => 'fail_device');
+            // JSON 형태로 출력
+            header('Content-Type: application/json');
+            echo json_encode($response);
             exit();
         }
     }
 
-    // 예약 정보를 Rental 테이블에 추가
-    $add_rental_sql = "INSERT INTO Rental (u_id, d_id, rt_start, rt_deadline, rt_state)
-                        VALUES ('$user_id', '$device_id', '$rental_start', '$rental_deadline', 0)";
-    if ($conn->query($add_rental_sql) === TRUE) {
-        echo "success"; // 예약 성공
+    
+
+    // 현재 날짜 및 예약 순서 가져오기s
+    $today = date("ymd");
+    $sql = "SELECT COUNT(*) AS reservation_count FROM Rental WHERE rt_book = CURDATE()";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $reservation_count = str_pad($row['reservation_count'] + 1, 3, '0', STR_PAD_LEFT);
     } else {
-        echo "fail"; // 예약 실패
+        $reservation_count = "001";
+    }
+
+    // 예약 ID 생성
+    $reservation_id = "rt12345-" . $today . "-" . $reservation_count;
+
+    // 예약 정보를 Rental 테이블에 추가
+    $add_rental_sql = "INSERT INTO Rental (rt_id, d_id, u_id, rt_book, rt_start, rt_deadline, rt_return, rt_state)
+                        VALUES ('$reservation_id', '$device_id', $user_id , CURDATE(), '$rental_start', '$rental_deadline', NUll, 0)";
+    if ($conn->query($add_rental_sql) === TRUE) {
+        // 예약 성공 시
+        $response = array('status' => 'success');
+        // JSON 형태로 출력
+        header('Content-Type: application/json');
+        echo json_encode($response);
+    } else {
+        // 예약 실패 시
+        $response = array('status' => 'fail_sql');
+        // JSON 형태로 출력
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
     // 데이터베이스 연결 닫기

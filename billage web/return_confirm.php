@@ -27,9 +27,9 @@
 
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 400) {
-                    //alert('기기 반납 완료.');
-                    //closeWindow();
-                    //window.opener.location.reload(); // 부모 창 새로고침
+                    alert('기기 반납 완료.');
+                    // 현재 창을 새로고침
+                    window.location.reload();
                 }
             };
 
@@ -115,11 +115,9 @@
 
                 echo "<div class='text-center mt-4'>";
 
-                if (strtotime($todayDate) >= strtotime($row_rental['rt_deadline'])) {
-                    echo "<button class='btn btn-primary' id='confirmButton' onclick='confirmRow(\"$rental_id\")'>반납확인</button>";
-                } else {
-                    echo "<button class='btn btn-primary' id='confirmButton' onclick='confirmRow(\"$rental_id\")' disabled>반납확인</button>";
-                }
+                
+                echo "<button class='btn btn-primary' id='confirmButton' onclick='confirmRow(\"$rental_id\")'>반납확인</button>";
+                
 
                 echo "&nbsp;";
                 echo "<a href=\"javascript:history.go(-1);\" class=\"btn btn-secondary\">뒤로가기</a>";
@@ -145,9 +143,32 @@
             <a href="javascript:history.go(-1);" class="btn btn-secondary">뒤로가기</a>
         </div>  -->
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var rtDeadline = "<?php echo $row_rental['rt_deadline']; ?>";
+                var rtState = "<?php echo $row_rental['rt_state']; ?>";
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
+                today = yyyy + '-' + mm + '-' + dd;
+
+                if (rtDeadline > today || (rtState !== '1' && rtState !== '4')) {
+                    var button = document.getElementById('confirmButton');
+                    button.disabled = true;
+                }
+            });
+        </script>
+
     </div>
 
     <script src="js/web3.min.js"></script>
     <script src="js/return.js"></script>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>

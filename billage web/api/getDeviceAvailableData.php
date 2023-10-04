@@ -17,7 +17,8 @@
                 WHERE Device.d_id = Rental.d_id 
                 AND c_id = '$category_id'
                 AND (rt_start <= '$rental_deadline' AND rt_deadline >= '$rental_start')
-            )";
+            )
+            AND d_state = 0";
 
     $result = $conn->query($sql);
 

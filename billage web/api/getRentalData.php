@@ -6,7 +6,7 @@
         $user_id = $_GET['u_id'];
 
         // u_id 값을 이용하여 Rental 데이터를 가져오는 쿼리 작성
-        $sql = "SELECT * FROM Rental WHERE u_id = $user_id";
+        $sql = "SELECT * FROM Rental WHERE u_id = $user_id ORDER BY rt_book";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {

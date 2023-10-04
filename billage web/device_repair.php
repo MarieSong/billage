@@ -135,9 +135,52 @@
                     <input type="date" class="form-control" id="repair_start" name="repair_start" required>
                     
                 </div>
+
+                <!-- repair_info를 hidden 필드로 추가 -->
+                <input type="hidden" id="repair_info" name="repair_info" value="">
+
                 <div class="form-group">
                     <label for="repair_info">수리 내용</label>
-                    <input type="text" class="form-control" id="repair_info" name="repair_info" required>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_0" value="0" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_0">액정 파손</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_1" value="1" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_1">키보드 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_2" value="2" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_2">카메라 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_3" value="3" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_3">터치패드 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_4" value="4" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_4">HDMI/USB 포트 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_5" value="5" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_5">스피커/오디오 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_6" value="6" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_62">메인보드 고장</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_7" value="7" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_7">배터리 교체</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_8" value="8" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_8">RAM 업그레이드</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="repair_info_9" value="9" onchange="updateRepairInfo()">
+                        <label class="form-check-label" for="repair_info_9">SSD 업그레이드</label>
+                    </div>
                     
                 </div>
 
@@ -152,6 +195,19 @@
             
 
             <script>
+                function updateRepairInfo() {
+                    // 체크된 체크박스들의 값을 합쳐서 repair_info에 저장
+                    var repair_info = "";
+                    for (var i = 0; i < 10; i++) {
+                        if (document.getElementById('repair_info_' + i).checked) {
+                            repair_info += i;
+                        }
+                    }
+
+                    // hidden 필드의 값을 업데이트
+                    document.getElementById('repair_info').value = repair_info;
+                }
+
                 function submitForm() {
                     // 입력값 가져오기
                     var repair_id = document.getElementById('repair_id').value;
@@ -160,6 +216,16 @@
                     var repair_discover = document.getElementById('repair_discover').value;
                     var repair_start = document.getElementById('repair_start').value;
                     var repair_info = document.getElementById('repair_info').value;
+                    
+                    /* repair_info 값을 초기화
+                    var repair_info = "";
+
+                    // 체크된 체크박스들의 값을 합쳐서 repair_info에 저장
+                    for (var i = 0; i < 10; i++) {
+                        if (document.getElementById('repair_info_' + i).checked) {
+                            repair_info += i;
+                        }
+                    }*/
 
                     // 데이터를 FormData 객체로 만들어서 전송
                     var formData = new FormData();
@@ -178,6 +244,8 @@
                             // 서버에서 응답을 받았을 때 수행할 작업
                             if (xhr.responseText === 'Success') {
                                 alert('저장 완료.');
+                                // 저장 완료 후 화면 새로고침
+                                location.reload();
                             } else {
                                 // 에러 처리
                                 console.error('Error:', xhr.responxeText);

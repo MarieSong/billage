@@ -69,6 +69,9 @@
                                 WHERE d_id = '$device_id'";
                 $result_rental = $conn->query($sql_rental);
 
+                // 렌탈 정보를 배열로 저장할 변수 초기화
+                $dbRentalHistory = [];
+
                 echo "<br>";
                 echo "<h3>렌탈 정보</h3>";
                 if ($result_rental->num_rows > 0) {
@@ -107,6 +110,13 @@
                         }
                         echo "</td>";
                         echo "</tr>";
+
+                        $dbRentalHistory[] = $row_rental['rt_id'];
+                        $dbRentalHistory[] = $row_rental['u_id'];
+                        $dbRentalHistory[] = $row_rental['rt_start'];
+                        $dbRentalHistory[] = $row_rental['rt_deadline'];
+                        $dbRentalHistory[] = $row_rental['rt_id'];
+                        $dbRentalHistory[] = $row_rental['rt_return'];
                     }
 
                     echo "</table>";
@@ -122,6 +132,10 @@
                 FROM Repair
                 WHERE d_id = '$device_id'";
                 $result_repair = $conn->query($sql_repair);
+
+                // 수리 정보를 배열로 저장할 변수 초기화
+                $dbRepairHistory = [];
+
 
                 echo "<br>";
                 echo "<br>";
@@ -153,6 +167,15 @@
                 
                     echo "<td>" . $row_repair['rp_info'] . "</td>";
                     echo "</tr>";
+
+                    $dbRepairHistory[] =  $row_repair['rp_id'];
+                    $dbRepairHistory[] =  $row_repair['rp_discover'];
+                    $dbRepairHistory[] =  $row_repair['rp_start'];
+                    $dbRepairHistory[] =  $row_repair['rp_info'];
+                    $dbRepairHistory[] =  $row_repair['rp_id'];
+                    $dbRepairHistory[] =  $row_repair['rp_return'];
+                    
+                    
                 }
 
                 echo "</table>";
@@ -164,19 +187,26 @@
                 }
 
                 $conn->close();
-            } else {
-                echo "기기 ID를 찾을 수 없습니다.";
-            }
+                } else {
+                    echo "기기 ID를 찾을 수 없습니다.";
+                }
+
+                
             ?>
         </div>
 
         <br>
         <br>
 
+        <!-- gethistory.js값 확인하기 위한 hidden값 -->
+        <!--<p><strong>테스트 ID :</strong> <span id="updatedData">0</span></p>  -->
+        <input type="hidden" id="updatedData" name="updatedData" value="0">
+
         <!-- 뒤로가기 버튼과 기록검증 버튼 -->
         <div class="text-center mt-4">
-            <button class="btn btn-primary" id='getHistory'>기록검증</button>
             <a href="device_list.php" class="btn btn-secondary mr-2">목록보기</a>
+            <button class="btn btn-primary mr-2" id='getHistory'>불러오기</button>
+            <button class="btn btn-success mr-2" id='checkHistory' disabled>동기화</button>
         </div>
 
 
@@ -184,6 +214,136 @@
 
     <script src="js/web3.min.js"></script>
     <script src="js/gethistory.js"></script>
+
+    <script>
+        const dbRentalHistory = <?php echo json_encode($dbRentalHistory); ?>;
+        const dbRepairHistory = <?php echo json_encode($dbRepairHistory); ?>;
+        
+
+        const checkHistoryButton = document.getElementById('checkHistory');
+        checkHistoryButton.addEventListener('click', onHiddenValueChanged);
+
+        // hidden 값이 변경되었을 때 실행될 함수
+        function onHiddenValueChanged() {
+            const updatedDataInput = document.getElementById('updatedData');
+            const updatedDataString = updatedDataInput.value;
+            const updatedData = JSON.parse(updatedDataString);
+
+            const rentalHistory = updatedData.rentalHistory;
+            const repairHistory = updatedData.repairHistory;
+
+            // rentalHistory와 dbRentalHistory 비교
+            for (let i = 0; i < rentalHistory.length; i++) {
+                if (rentalHistory[i] !== dbRentalHistory[i]) {
+                    console.log(`rentalHistory와 dbRentalHistory의 ${i+1}번째 값이 다릅니다.`);
+                    console.log(`rentalHistory: ${rentalHistory[i]}, dbRentalHistory: ${dbRentalHistory[i]}`);
+                    const rentalID = i-i%6;
+                    console.log(`rt_id :  ${rentalHistory[rentalID]}`);
+
+                    let editPart;
+                    switch (i % 6) {
+                        case 0:
+                            editPart = 'rt_id';
+                            break;
+                        case 1:
+                            editPart = 'u_id';
+                            break;
+                        case 2:
+                            editPart = 'rt_start';
+                            break;
+                        case 3:
+                            editPart = 'rt_deadline';
+                            break;
+                        case 4:
+                            editPart = 'rt_id';
+                            break;
+                        case 5:
+                            editPart = 'rt_return';
+                            break;
+                        default:
+                            editPart = '';
+                    }
+
+
+                    // 서버로 데이터 전송
+                    fetch('device_list_detail_sync.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ table : 'Rental', id_name : 'rt_id', id: rentalHistory[rentalID], editValue: editPart, newValue: rentalHistory[i] })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('데이터베이스 업데이트 결과:', data);
+                    })
+                    .catch(error => console.error('데이터베이스 업데이트 중 오류 발생:', error));
+                }
+            }
+
+            // repairHistory와 dbRepairHistory 비교
+            for (let i = 0; i < repairHistory.length; i++) {
+                if (repairHistory[i] !== dbRepairHistory[i]) {
+                    console.log(`repairHistory와 dbRepairHistory의 ${i+1}번째 값이 다릅니다.`);
+                    console.log(`repairHistory: ${repairHistory[i]}, dbRepairHistory: ${dbRepairHistory[i]}`);
+
+                    const repairID = i-i%6;
+                    console.log(`rp_id :  ${repairHistory[repairID]}`);
+
+                    let editPart2;
+                    switch (i % 6) {
+                        case 0:
+                            editPart2 = 'rp_id';
+                            break;
+                        case 1:
+                            editPart2 = 'rp_discover';
+                            break;
+                        case 2:
+                            editPart2 = 'rp_start';
+                            break;
+                        case 3:
+                            editPart2 = 'rp_info';
+                            break;
+                        case 4:
+                            editPart2 = 'rp_id';
+                            break;
+                        case 5:
+                            editPart2 = 'rp_return';
+                            break;
+                        default:
+                            editPart2 = '';
+                    }
+
+
+                    // 서버로 데이터 전송
+                    fetch('device_list_detail_sync.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ table : 'Repair', id_name : 'rp_id', id: repairHistory[repairID], editValue: editPart2, newValue: repairHistory[i] })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('데이터베이스 업데이트 결과:', data);
+                    })
+                    .catch(error => console.error('데이터베이스 업데이트 중 오류 발생:', error));
+                }
+            }
+
+            // 모든 값이 일치하면 "success" 출력
+            console.log("compare complete");
+
+            // "동기화 완료" 팝업 표시
+            alert("동기화 완료");
+
+            // 화면 새로고침
+            location.reload();
+        }
+
+
+        
+    </script>
 
     <!-- 하단 메뉴 -->
     <?php

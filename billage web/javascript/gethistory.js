@@ -600,15 +600,24 @@ getHistoryButton.addEventListener('click', async () => {
 		const rentalHistory = await deviceNFTContract.methods.getRentalHistory(extractedNumber).call();
 		const repairHistory = await deviceNFTContract.methods.getRepairHistory(extractedNumber).call();
 		console.log(`rental history`);
+
 		for (let i = 0; i < rentalHistory.length; i++) {
 
 			console.log(`${i + 1}. ${rentalHistory[i]}`);
-		  }
+		}
 		console.log(`repair history`);
 		for (let i = 0; i < repairHistory.length; i++) {
 			console.log(`${i + 1}. ${repairHistory[i]}`);
-		  }
-		} catch (error) {
-		  console.error(`대여 이력 조회 중 오류 발생:`, error);
 		}
+
+		// hidden input 업데이트
+		const updatedDataInput = document.getElementById('updatedData');
+		updatedDataInput.value = JSON.stringify({ rentalHistory, repairHistory });
+		document.getElementById('checkHistory').disabled = false;
+
+	
+
+	} catch (error) {
+		  console.error(`대여 이력 조회 중 오류 발생:`, error);
+	}
 });

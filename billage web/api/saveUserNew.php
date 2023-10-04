@@ -18,10 +18,16 @@
 
     if ($conn->query($sql) === TRUE) {
         // 삽입 성공 시
-        echo "success";
+        $response = array('status' => 'success');
+        // JSON 형태로 출력
+        header('Content-Type: application/json');
+        echo json_encode($response);
     } else {
         // 삽입 실패 시
-        echo "fail";
+        $response = array('status' => 'fail');
+        // JSON 형태로 출력
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 
     // 데이터베이스 연결 종료

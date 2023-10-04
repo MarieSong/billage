@@ -196,11 +196,12 @@
                         <button type="button" class="button-submit btn btn-secondary" id="generateTokenButton">토큰 생성</button>
                     </div>
                     <div class="mx-2">
-                        <button type="submit" class="button-submit btn btn-primary">등록</button>
+                        <button type="submit" class="button-submit btn btn-primary"  id="submitButton" disabled>등록</button>
                     </div>
                 </div>
                 
             </form>
+            
         </div>
 
     

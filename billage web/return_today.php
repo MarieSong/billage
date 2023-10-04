@@ -58,7 +58,7 @@
             // Rental 테이블 정보 가져오기 (검색)
             $sql = "SELECT d.d_name, d.d_model, d.d_id, rt.u_id, rt.rt_deadline, rt.rt_id, rt.rt_state 
                     FROM Rental rt, Device d 
-                    WHERE d.d_id = rt.d_id AND rt.rt_deadline = CURDATE() AND rt.rt_start < CURDATE() AND rt.rt_state=1";
+                    WHERE d.d_id = rt.d_id AND rt.rt_deadline = CURDATE() AND rt.rt_start <= CURDATE() AND rt.rt_state=1";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {

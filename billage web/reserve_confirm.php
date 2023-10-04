@@ -27,11 +27,9 @@
 
             xhr.onload = function () {
                 if (xhr.status >= 200 && xhr.status < 400) {
-                    //alert('기기 수령 완료.');
-                    //closeWindow();
-                    //window.opener.location.reload(); // 부모 창 새로고침
-                    //history.back();
-                    //window.location.reload(); // 현재 창 새로고침
+                    alert('기기 수령 완료.');
+                    // 현재 창을 새로고침
+                    window.location.reload();
                 }
             };
 
@@ -141,36 +139,28 @@
         
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-            var rtStart = "<?php echo $row_rental['rt_start']; ?>";
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
-            today = yyyy + '-' + mm + '-' + dd;
+                var rtStart = "<?php echo $row_rental['rt_start']; ?>";
+                var rtState = "<?php echo $row_rental['rt_state']; ?>";
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
+                today = yyyy + '-' + mm + '-' + dd;
 
-            if (rtStart !== today) {
-                var button = document.getElementById('transferNFT');
-                button.disabled = true;
-            }
+                if (rtStart !== today || rtState !== '0') {
+                    var button = document.getElementById('transferNFT');
+                    button.disabled = true;
+                }
             });
         </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            var rtStart = "<?php echo $row_rental['rt_start']; ?>";
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var yyyy = today.getFullYear();
-            today = yyyy + '-' + mm + '-' + dd;
-
-            if (rtStart !== today) {
-                var button = document.getElementById('transferNFT');
-                button.disabled = true;
-            }
-            });
-        </script>
 
     </div>
+
+    <!-- 하단 메뉴 -->
+    <?php
+        // bottom.php 파일을 포함
+        include('bottom.php');
+    ?>
 </body>
 </html>
