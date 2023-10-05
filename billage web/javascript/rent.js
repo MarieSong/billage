@@ -582,7 +582,9 @@ transferNFTButton.addEventListener('click', async () => {
     const rentalId = rentalIdElement.textContent.trim().split(' : ')[1];
     
     const tokenIdTransfer = document.getElementById('tokenIdTransfer').textContent;
-    const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
+    
+	const sender = '0x5a1CAF54f98De0712E68F039a78bce8Ec3437B8A';
+	const recipient = '0x8d07055477A095603f7eCdb88c4342497fcb2c43';
 
     // 대여자 ID 처리
     const userIdElement = document.getElementById('userId');
@@ -623,7 +625,7 @@ transferNFTButton.addEventListener('click', async () => {
         const deviceNFTContract = new web3.eth.Contract(contractABI, contractAddress);
 
         // 스마트 계약의 transferDeviceNFT 함수를 호출하여 NFT 전송
-        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, rentalHistory, []).send({ from: accounts[0], gas: 1000000, gasPrice: '3000000' });
+        await deviceNFTContract.methods.transferDeviceNFT(extractedNumber, recipient, rentalHistory, []).send({ from: sender, gas: 1000000, gasPrice: '3000000' });
 
     } catch (error) {
 		console.error('Error:', error);
