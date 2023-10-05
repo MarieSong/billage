@@ -22,7 +22,9 @@
         
     }
 
-    $sql = "SELECT * FROM Device WHERE d_id = '$device_id'";
+    $sql = "SELECT * 
+            FROM Device 
+            WHERE d_id = '$device_id'";
 
     $result = $conn->query($sql);
 
@@ -34,6 +36,16 @@
 
         exit;
         
+    } else {
+        $row = $result->fetch_assoc();
+        if ($row['d_state'] == '1') {
+            echo "device repair";
+
+            // 데이터베이스 연결 종료
+            $conn->close();
+
+            exit;
+        }
     }
 
     

@@ -139,6 +139,10 @@
                         // 대여 불가능한 경우 등록 버튼 비활성화
                         document.getElementById('registerButton').disabled = true;
                         alert('이미 다른 사용자가 사용중입니다. 대여가 불가능합니다.');
+                    } else if (xhr.responseText === "device repair") {
+                        // 대여 불가능한 경우 등록 버튼 비활성화
+                        document.getElementById('registerButton').disabled = true;
+                        alert('수리중인 기기입니다. 대여가 불가능합니다.');
                     } else {
                         document.getElementById('registerButton').disabled = true;
                         alert('오류가 발생했습니다. 다시 시도해 주세요.');
