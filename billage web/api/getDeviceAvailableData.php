@@ -8,17 +8,20 @@
     $rental_deadline = $_GET['rental_deadline'];
 
     // SQL 쿼리 작성
-    $sql = "SELECT *
+    $sql = "SELECT Device.*, COUNT(Rental.rt_id) AS rental_count
             FROM Device
-            WHERE c_id = '$category_id'
-            AND d_id NOT IN (
+            LEFT JOIN Rental ON Device.d_id = Rental.d_id
+            WHERE Device.c_id = '$category_id'
+            AND Device.d_id NOT IN (
                 SELECT Device.d_id
                 FROM Device, Rental 
                 WHERE Device.d_id = Rental.d_id 
-                AND c_id = '$category_id'
-                AND (rt_start <= '$rental_deadline' AND rt_deadline >= '$rental_start')
+                AND Device.c_id = '$category_id'
+                AND (Rental.rt_start <= '$rental_deadline' AND Rental.rt_deadline >= '$rental_start')
+                AND Rental.rt_state != 2
             )
-            AND d_state = 0";
+            AND Device.d_state = 0
+            GROUP BY Device.d_id";
 
     $result = $conn->query($sql);
 

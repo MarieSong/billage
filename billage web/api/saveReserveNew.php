@@ -78,7 +78,7 @@
         echo json_encode($response);
     } else {
         // 예약 실패 시
-        $response = array('status' => 'fail_sql');
+        $response = array('status' => $add_rental_sql);
         // JSON 형태로 출력
         header('Content-Type: application/json');
         echo json_encode($response);

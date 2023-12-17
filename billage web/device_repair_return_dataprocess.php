@@ -13,7 +13,7 @@
 
         if ($conn->query($update_query) === TRUE) {
             // Device 테이블에서 d_id에 해당하는 기기의 d_state를 1로 변경
-            $update_device_sql = "UPDATE Device SET d_state = 0 WHERE d_id = '$row_sql['d_id']'";
+            $update_device_sql = "UPDATE Device SET d_state = 0 WHERE d_id = '" . $row_sql['d_id'] . "'";
             echo "<script>alert('저장이 완료되었습니다.');</script>";
             echo "<script>window.location.href = 'device_list_detail.php?d_id=" . $row_sql['d_id'] . "';</script>";
         } else {
